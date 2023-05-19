@@ -1,0 +1,165 @@
+<fieldset id="great">
+  <legend>great wheel arbor</legend>
+
+  <div class="gearing">
+    <div data-field="wheel">
+      <label for="great-wheel">Wheel teeth</label>
+      <input type="number" id="great-wheel" :value="dataWheel || 63">
+    </div>
+
+    <div data-field="drive-force">
+      <label for="drive-force">Drive force</label>
+      <input type="number" id="drive-force" min="0" :value="dataForce || 5">
+      <i>lbs</i>
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Rotation:</b>
+        <output id="great-speed">…</output>
+        <i>hours</i>
+      </li>
+      <li>
+        <b>30 Hour:</b>
+        <output id="day-wind">…</output>
+      </li>
+      <li>
+        <b>8 Day:</b>
+        <output id="week-wind">…</output>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <div data-field="size">
+      <label for="great-od">Outside Diameter</label>
+      <input type="number" id="great-od" :value="dataSize || 210" class="unit-math">
+
+      <select name="units" id="units">
+        <template webc:if="dataUnits === 'in'" webc:nokeep>
+          <option value="mm">mm</option>
+          <option value="in" selected>in</option>
+        </template>
+        <template webc:else webc:nokeep>
+          <option value="mm" selected>mm</option>
+          <option value="in">in</option>
+        </template>
+      </select>
+    </div>
+
+    <div data-field="ratchet-size">
+      <label for="ratchet-size">Ratchet Diameter</label>
+      <input type="number" id="ratchet-size" min="0" :value="dataRatchet || 25" class="unit-math">
+      <output for="units">mm</output>
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Pitch Diameter:</b>
+        <output id="great-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Tooth Spacing:</b>
+        <output id="great-w">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>30 Hour:</b>
+        <output id="day-drop">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>8 Day:</b>
+        <output id="week-drop">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+<style>
+  great-wheel {
+    display: block;
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('great-wheel', class extends HTMLElement {
+    connectedCallback() {
+      const els = {
+        unitsIn: document.getElementById('units'),
+        wheel: document.getElementById('great-wheel'),
+        od: document.getElementById('great-od'),
+        pd: document.getElementById('great-pd'),
+        w: document.getElementById('great-w'),
+        unitMath: document.querySelectorAll('input.unit-math'),
+        unitsOut: document.querySelectorAll('output[for=units]'),
+        center: document.getElementById('center'),
+        ratchet: document.getElementById('ratchet-size'),
+        speed: document.getElementById('great-speed'),
+        dayWind: document.getElementById('day-wind'),
+        weekWind: document.getElementById('week-wind'),
+        dayDrop: document.getElementById('day-drop'),
+        weekDrop: document.getElementById('week-drop'),
+      };
+
+      let units = els.unitsIn.value;
+
+      const r = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const updateUnits = () => {
+        els.unitsOut.forEach((out) => out.value = els.unitsIn.value);
+      }
+
+      const getSizes = () => {
+        const ws = parseInt(els.wheel.value);
+        const od = parseFloat(els.od.value);
+        const pd = od * (ws / (ws + 2));
+        const w = pd * Math.PI / ws;
+
+        return { pd, w };
+      }
+
+      const setOutput = () => {
+        updateUnits();
+
+        const sizes = getSizes();
+        els.w.value = r(sizes.w);
+        els.pd.value = r(sizes.pd);
+      }
+
+      setOutput();
+      this.addEventListener('input', (e) => { setOutput(); });
+
+      if (els.center) {
+        const centerRatio = els.center.querySelector(':scope .out .ratio');
+
+        const setDrop = () => {
+          const ratio = parseFloat(centerRatio.value);
+          const ratchet = Math.PI * parseFloat(els.ratchet.value);
+
+          els.speed.value = r(ratio);
+          els.dayWind.value = r(30 / ratio);
+          els.weekWind.value = r(192 / ratio);
+
+          els.dayDrop.value = r(ratchet * els.dayWind.value);
+          els.weekDrop.value = r(ratchet * els.weekWind.value);
+        }
+
+        setDrop();
+        this.addEventListener('input', (e) => { setDrop(); });
+
+        const timeChange = new MutationObserver((mutationList, observer) => {
+          setDrop();
+        });
+
+        // Start observing the target node for configured mutations
+        timeChange.observe(centerRatio, { childList: true });
+      }
+    }
+  });
+</script>

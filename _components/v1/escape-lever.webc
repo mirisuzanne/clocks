@@ -1,0 +1,95 @@
+<fieldset>
+  <legend>Escape Lever & Pendulum</legend>
+
+  <div class="gearing">
+    <div data-field="factor">
+      <label for="escape-factor">Escape Factor</label>
+      <input type="number" id="escape-factor" :value="dataFactor || 2">
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Beats:</b>
+        <output class="bph">…</output> <i>bph</i>
+        / <output class="bpm">…</output> <i>bpm</i>
+        / <output class="bps">…</output> <i>bps</i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <ul class="out">
+      <li>
+        <b>Pendulum:</b>
+        <output class="length">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+<style>
+  escape-lever {
+    --color: mediumvioletred;
+    --bg: lavenderblush;
+    display: block;
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('escape-lever', class extends HTMLElement {
+    connectedCallback() {
+      const els = {
+        units: document.getElementById('units'),
+        center: document.getElementById('center'),
+        escape: document.getElementById('escape'),
+        factor: this.querySelector(':scope [data-field=factor] input'),
+        bph: this.querySelector(':scope .out .bph'),
+        bpm: this.querySelector(':scope .out .bpm'),
+        bps: this.querySelector(':scope .out .bps'),
+        length: this.querySelector(':scope .out .length'),
+      };
+
+      if (els.escape) {
+        els.escapeWheel = els.escape.querySelector(':scope [data-field=wheel] input');
+        els.speed = els.escape.querySelector(':scope .out .speed');
+      };
+
+      const r = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const getBph = () => r(
+        (parseInt(els.escapeWheel.value) * parseFloat(els.factor.value))
+        * parseFloat(els.speed.value)
+      );
+
+      const setBeats = () => {
+        const bph = getBph();
+        els.bph.value = bph;
+        els.bpm.value = r(bph / 60);
+        els.bps.value = r(bph / 60 / 60);
+      }
+
+      const setLength = () => {
+        const bpm = Math.pow(els.bpm.value, 2);
+        let L = 141220 / bpm;
+
+        if (els.units.value === 'mm') {
+          L = (3578.4 / bpm) * 1000;
+        }
+
+        els.length.value = `${Math.floor(L)}–${Math.ceil(L * 1.2)}`;
+      }
+
+      const setOutput = () => {
+        setBeats();
+        setLength();
+      }
+
+      setOutput();
+      this.parentElement.addEventListener('input', (e) => { setOutput(); });
+    }
+  });
+</script>

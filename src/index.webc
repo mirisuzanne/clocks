@@ -1,0 +1,10 @@
+---
+layout: base
+title: Clock Plans
+---
+
+<ul>
+  <li webc:for="item of collections.clocks">
+    <a :href="item.url" @html="item.data.title"></a>
+  </li>
+</ul>

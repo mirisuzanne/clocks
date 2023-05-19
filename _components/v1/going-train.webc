@@ -1,0 +1,106 @@
+<great-wheel
+  data-wheel="60"
+  data-size="200"
+  data-units="mm"
+  data-force="5"
+></great-wheel>
+
+<wheel-arbor
+  id="center"
+  data-drive="great"
+  data-pinion="20"
+  data-wheel="64"
+></wheel-arbor>
+
+<wheel-arbor
+  id="third"
+  data-drive="center"
+  data-pinion="8"
+  data-wheel="60"
+></wheel-arbor>
+
+<wheel-arbor
+  id="escape"
+  data-drive="third"
+  data-pinion="8"
+  data-wheel="30"
+></wheel-arbor>
+
+<escape-lever
+  data-factor="2"
+></escape-lever>
+
+<style>
+  going-train {
+    display: block;
+    --wind-color: var(--teal-9);
+    --center-color: var(--indigo-9);
+    --escape-color: var(--pink-9);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    going-train {
+      --wind-color: var(--teal-3);
+      --center-color: var(--indigo-3);
+      --escape-color: var(--pink-3);
+    }
+  }
+
+  fieldset {
+    border: thin solid var(--color, currentColor);
+    gap: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25ch, 1fr));
+    margin: 1em 0;
+    padding: 1em;
+    position: relative;
+  }
+
+  legend {
+    color: var(--color, currentColor);
+    font-weight: bold;
+    margin: 0;
+    padding-inline: 0.5em;
+    text-transform: capitalize;
+  }
+
+  label, b {
+    font-weight: normal;
+  }
+
+  input, output, i {
+    font-family: var(--font-mono);
+    font-style: normal;
+  }
+
+  output:not([for=units]) {
+    text-decoration: underline;
+  }
+
+  .gearing, .sizing {
+    align-content: start;
+    display: grid;
+    gap: 0.5em;
+  }
+
+  ul, ol {
+    margin: 0;
+    padding-inline: 1em;
+  }
+
+  #center {
+    --color: var(--center-color);
+  }
+
+  #escape {
+    --color: var(--escape-color);
+  }
+
+  #great {
+    --color: var(--wind-color);
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('going-train', class extends HTMLElement {});
+</script>

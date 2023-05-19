@@ -1,0 +1,97 @@
+<h2 @html="title">Gear Train</h2>
+
+<fieldset id="train-settings">
+  <legend>general settings</legend>
+  <form-field @id="size-unit">
+    <label :for="`${this.id}`">
+      size
+    </label>
+    <select :name="`${this.id}`" :id="`${this.id}`">
+      <option value="mm" selected>mm</option>
+      <option value="in">in</option>
+    </select>
+  </form-field>
+
+  <form-field @id="force-unit">
+    <label :for="`${this.id}`">
+      force
+    </label>
+    <select :name="`${this.id}`" :id="`${this.id}`">
+      <option value="lb" selected>lb</option>
+      <option value="kg">kg</option>
+    </select>
+  </form-field>
+</fieldset>
+
+<slot></slot>
+
+<dl class="out">
+  <dt>Arbor Count</dt>
+  <dd><output class="arbor-count">…</output></dd>
+</dl>
+
+<style>
+  #train-settings {
+    border-style: dotted;
+  }
+
+  split-train {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(30ch, 100%), 1fr));
+    justify-content: center;
+  }
+
+  .out {
+    border-block-start: thin dotted;
+    margin-block-start: var(--gap);
+    padding-block-start: var(--gap);
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('clock-train', class extends HTMLElement {
+    connectedCallback() {
+      const input = {
+        forceUnit: this.querySelector(':scope #force-unit'),
+        sizeUnit: this.querySelector(':scope #size-unit'),
+      };
+
+      const output = {
+        arborCount: this.querySelector(':scope dl .arbor-count'),
+        forceUnit: document.querySelectorAll(':scope output[for=force-unit]'),
+        sizeUnit: document.querySelectorAll(':scope output[for=size-unit]'),
+      };
+
+      // counting arbors
+      const countArbors = () => this.querySelectorAll(':scope clock-arbor').length;
+      const wheelCount = () => { output.arborCount.value = countArbors(); }
+
+      // updating unit
+      const forceUnit = () =>
+        output.forceUnit.forEach((out) => out.value = input.forceUnit.value);
+
+      const sizeUnit = () =>
+        output.sizeUnit.forEach((out) => out.value = input.sizeUnit.value);
+
+      // event listeners
+      input.forceUnit.addEventListener('input', (e) => { forceUnit(); });
+      input.sizeUnit.addEventListener('input', (e) => { sizeUnit(); });
+
+      // general updates
+      const doUpdate = () => {
+        forceUnit();
+        sizeUnit();
+        wheelCount();
+      }
+
+      doUpdate();
+
+      const trainChange = new MutationObserver((mutationList, observer) => {
+        doUpdate();
+      });
+
+      trainChange.observe(this, { childList: true });
+    }
+  });
+</script>

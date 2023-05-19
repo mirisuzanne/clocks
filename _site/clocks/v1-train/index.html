@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clocks!</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>great-wheel {
+    display: block;
+  }
+wheel-arbor {
+    display: block;
+  }
+escape-lever {
+    --color: mediumvioletred;
+    --bg: lavenderblush;
+    display: block;
+  }
+going-train {
+    display: block;
+    --wind-color: var(--teal-9);
+    --center-color: var(--indigo-9);
+    --escape-color: var(--pink-9);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    going-train {
+      --wind-color: var(--teal-3);
+      --center-color: var(--indigo-3);
+      --escape-color: var(--pink-3);
+    }
+  }
+
+  fieldset {
+    border: thin solid var(--color, currentColor);
+    gap: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25ch, 1fr));
+    margin: 1em 0;
+    padding: 1em;
+    position: relative;
+  }
+
+  legend {
+    color: var(--color, currentColor);
+    font-weight: bold;
+    margin: 0;
+    padding-inline: 0.5em;
+    text-transform: capitalize;
+  }
+
+  label, b {
+    font-weight: normal;
+  }
+
+  input, output, i {
+    font-family: var(--font-mono);
+    font-style: normal;
+  }
+
+  output:not([for=units]) {
+    text-decoration: underline;
+  }
+
+  .gearing, .sizing {
+    align-content: start;
+    display: grid;
+    gap: 0.5em;
+  }
+
+  ul, ol {
+    margin: 0;
+    padding-inline: 1em;
+  }
+
+  #center {
+    --color: var(--center-color);
+  }
+
+  #escape {
+    --color: var(--escape-color);
+  }
+
+  #great {
+    --color: var(--wind-color);
+  }</style>
+</head>
+<body>
+  <header>
+    <h1>V1 Train</h1>
+  </header>
+
+  <main><going-train><great-wheel data-wheel="60" data-size="200" data-units="mm" data-force="5"><fieldset id="great">
+  <legend>great wheel arbor</legend>
+
+  <div class="gearing">
+    <div data-field="wheel">
+      <label for="great-wheel">Wheel teeth</label>
+      <input type="number" id="great-wheel" value="60">
+    </div>
+
+    <div data-field="drive-force">
+      <label for="drive-force">Drive force</label>
+      <input type="number" id="drive-force" min="0" value="5">
+      <i>lbs</i>
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Rotation:</b>
+        <output id="great-speed">…</output>
+        <i>hours</i>
+      </li>
+      <li>
+        <b>30 Hour:</b>
+        <output id="day-wind">…</output>
+      </li>
+      <li>
+        <b>8 Day:</b>
+        <output id="week-wind">…</output>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <div data-field="size">
+      <label for="great-od">Outside Diameter</label>
+      <input type="number" id="great-od" value="200" class="unit-math">
+
+      <select name="units" id="units">
+        
+        
+          <option value="mm" selected>mm</option>
+          <option value="in">in</option>
+        
+      </select>
+    </div>
+
+    <div data-field="ratchet-size">
+      <label for="ratchet-size">Ratchet Diameter</label>
+      <input type="number" id="ratchet-size" min="0" value="25" class="unit-math">
+      <output for="units">mm</output>
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Pitch Diameter:</b>
+        <output id="great-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Tooth Spacing:</b>
+        <output id="great-w">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>30 Hour:</b>
+        <output id="day-drop">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>8 Day:</b>
+        <output id="week-drop">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+
+
+
+</great-wheel>
+
+<wheel-arbor id="center" data-drive="great" data-pinion="20" data-wheel="64"><fieldset>
+  <legend><span>center</span> wheel arbor</legend>
+
+  <div class="gearing">
+    <div data-field="pinion">
+      <label for="pinion-center">Pinion leaves</label>
+      <input type="number" id="pinion-center" min="7" value="20">
+    </div>
+
+    <div data-field="wheel">
+      <label for="wheel-center">Wheel teeth</label>
+      <input type="number" id="wheel-center" value="64">
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Drive Ratio:</b>
+        <output class="ratio">…</output>:1
+      </li>
+      <li>
+        <b>Drive Force:</b>
+        <output class="force">…</output>
+        <i>lbs</i>
+      </li>
+      <li>
+        <b>Speed:</b>
+        <output class="speed">…</output>
+        <i>rph</i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <ul class="out">
+      <li>
+        <b>Pinion Pitch:</b>
+        <output class="pinion-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Arbor Spacing:</b>
+        <output class="arbor-space">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+    <ul class="out">
+      <li>
+        <b>Wheel Pitch:</b>
+        <output class="wheel-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Wheel Outside:</b>
+        <output class="wheel-od">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+
+
+
+</wheel-arbor>
+
+<wheel-arbor id="third" data-drive="center" data-pinion="8" data-wheel="60"><fieldset>
+  <legend><span>third</span> wheel arbor</legend>
+
+  <div class="gearing">
+    <div data-field="pinion">
+      <label for="pinion-third">Pinion leaves</label>
+      <input type="number" id="pinion-third" min="7" value="8">
+    </div>
+
+    <div data-field="wheel">
+      <label for="wheel-third">Wheel teeth</label>
+      <input type="number" id="wheel-third" value="60">
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Drive Ratio:</b>
+        <output class="ratio">…</output>:1
+      </li>
+      <li>
+        <b>Drive Force:</b>
+        <output class="force">…</output>
+        <i>lbs</i>
+      </li>
+      <li>
+        <b>Speed:</b>
+        <output class="speed">…</output>
+        <i>rph</i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <ul class="out">
+      <li>
+        <b>Pinion Pitch:</b>
+        <output class="pinion-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Arbor Spacing:</b>
+        <output class="arbor-space">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+    <ul class="out">
+      <li>
+        <b>Wheel Pitch:</b>
+        <output class="wheel-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Wheel Outside:</b>
+        <output class="wheel-od">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+
+
+
+</wheel-arbor>
+
+<wheel-arbor id="escape" data-drive="third" data-pinion="8" data-wheel="30"><fieldset>
+  <legend><span>escape</span> wheel arbor</legend>
+
+  <div class="gearing">
+    <div data-field="pinion">
+      <label for="pinion-escape">Pinion leaves</label>
+      <input type="number" id="pinion-escape" min="7" value="8">
+    </div>
+
+    <div data-field="wheel">
+      <label for="wheel-escape">Wheel teeth</label>
+      <input type="number" id="wheel-escape" value="30">
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Drive Ratio:</b>
+        <output class="ratio">…</output>:1
+      </li>
+      <li>
+        <b>Drive Force:</b>
+        <output class="force">…</output>
+        <i>lbs</i>
+      </li>
+      <li>
+        <b>Speed:</b>
+        <output class="speed">…</output>
+        <i>rph</i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <ul class="out">
+      <li>
+        <b>Pinion Pitch:</b>
+        <output class="pinion-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Arbor Spacing:</b>
+        <output class="arbor-space">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+    
+  </div>
+</fieldset>
+
+
+
+
+</wheel-arbor>
+
+<escape-lever data-factor="2"><fieldset>
+  <legend>Escape Lever &amp; Pendulum</legend>
+
+  <div class="gearing">
+    <div data-field="factor">
+      <label for="escape-factor">Escape Factor</label>
+      <input type="number" id="escape-factor" value="2">
+    </div>
+
+    <ul class="out">
+      <li>
+        <b>Beats:</b>
+        <output class="bph">…</output> <i>bph</i>
+        / <output class="bpm">…</output> <i>bpm</i>
+        / <output class="bps">…</output> <i>bps</i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <ul class="out">
+      <li>
+        <b>Pendulum:</b>
+        <output class="length">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+
+
+
+</escape-lever>
+
+
+
+
+</going-train>
+</main>
+
+  <script>window.customElements.define('great-wheel', class extends HTMLElement {
+    connectedCallback() {
+      const els = {
+        unitsIn: document.getElementById('units'),
+        wheel: document.getElementById('great-wheel'),
+        od: document.getElementById('great-od'),
+        pd: document.getElementById('great-pd'),
+        w: document.getElementById('great-w'),
+        unitMath: document.querySelectorAll('input.unit-math'),
+        unitsOut: document.querySelectorAll('output[for=units]'),
+        center: document.getElementById('center'),
+        ratchet: document.getElementById('ratchet-size'),
+        speed: document.getElementById('great-speed'),
+        dayWind: document.getElementById('day-wind'),
+        weekWind: document.getElementById('week-wind'),
+        dayDrop: document.getElementById('day-drop'),
+        weekDrop: document.getElementById('week-drop'),
+      };
+
+      let units = els.unitsIn.value;
+
+      const r = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const updateUnits = () => {
+        els.unitsOut.forEach((out) => out.value = els.unitsIn.value);
+      }
+
+      const getSizes = () => {
+        const ws = parseInt(els.wheel.value);
+        const od = parseFloat(els.od.value);
+        const pd = od * (ws / (ws + 2));
+        const w = pd * Math.PI / ws;
+
+        return { pd, w };
+      }
+
+      const setOutput = () => {
+        updateUnits();
+
+        const sizes = getSizes();
+        els.w.value = r(sizes.w);
+        els.pd.value = r(sizes.pd);
+      }
+
+      setOutput();
+      this.addEventListener('input', (e) => { setOutput(); });
+
+      if (els.center) {
+        const centerRatio = els.center.querySelector(':scope .out .ratio');
+
+        const setDrop = () => {
+          const ratio = parseFloat(centerRatio.value);
+          const ratchet = Math.PI * parseFloat(els.ratchet.value);
+
+          els.speed.value = r(ratio);
+          els.dayWind.value = r(30 / ratio);
+          els.weekWind.value = r(192 / ratio);
+
+          els.dayDrop.value = r(ratchet * els.dayWind.value);
+          els.weekDrop.value = r(ratchet * els.weekWind.value);
+        }
+
+        setDrop();
+        this.addEventListener('input', (e) => { setDrop(); });
+
+        const timeChange = new MutationObserver((mutationList, observer) => {
+          setDrop();
+        });
+
+        // Start observing the target node for configured mutations
+        timeChange.observe(centerRatio, { childList: true });
+      }
+    }
+  });
+window.customElements.define('wheel-arbor', class extends HTMLElement {
+    connectedCallback() {
+      const els = {
+        drive: document.getElementById(this.dataset.drive),
+        great: document.getElementById('great'),
+        center: document.getElementById('center'),
+        power: document.getElementById('drive-force'),
+        wheel: this.querySelector(':scope [data-field=wheel] input'),
+        pinion: this.querySelector(':scope [data-field=pinion] input'),
+        factor: this.querySelector(':scope [data-field=factor] input'),
+        ratio: this.querySelector(':scope .out .ratio'),
+        force: this.querySelector(':scope .out .force'),
+        speed: this.querySelector(':scope .out .speed'),
+        w: document.getElementById('great-w'),
+        ppd: this.querySelector(':scope .out .pinion-pd'),
+        wpd: this.querySelector(':scope .out .wheel-pd'),
+        wod: this.querySelector(':scope .out .wheel-od'),
+        arbor: this.querySelector(':scope .out .arbor-space'),
+      };
+
+      const r = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      if (els.drive) {
+        els.driveWheel = els.drive.querySelector(':scope [data-field=wheel] input');
+        els.trainRatio = els.drive.querySelector(':scope .out .ratio');
+        els.drivePd = this.dataset.drive === 'great'
+          ? document.getElementById('great-pd')
+          : els.drive.querySelector(':scope .out .wheel-pd');
+      }
+
+      if (els.speed && els.center) {
+        els.centerRatio = els.center.querySelector(':scope .out .ratio');
+      }
+
+      const driveRatio = () => {
+        const ratio = parseInt(els.driveWheel.value) / parseInt(els.pinion.value);
+
+        return els.trainRatio
+          ? ratio * parseFloat(els.trainRatio.value)
+          : ratio;
+      };
+
+      const setGearing = () => {
+        if (els.drive) {
+          els.ratio.value = r(driveRatio());
+          els.force.value = r(parseFloat(els.power.value) / driveRatio());
+        }
+
+        if (els.centerRatio) {
+          els.speed.value = r(driveRatio() / parseFloat(els.centerRatio.value));
+        }
+      };
+
+      const getPinionSize = () => {
+        const w = parseFloat(els.w.value);
+        const ps = parseInt(els.pinion.value);
+        return (ps * w) / Math.PI;
+      }
+
+      const getWheelSizes = () => {
+        const w = parseFloat(els.w.value);
+        const ws = parseInt(els.wheel.value);
+
+        const wpd = (ws * w) / Math.PI;
+        const wod = wpd / (ws / (ws + 2));
+
+        return { wpd, wod };
+      }
+
+      const setSizing = () => {
+        const ppd = getPinionSize();
+        els.ppd.value = r(ppd);
+
+        if (els.drivePd) {
+          const drivePd = parseFloat(els.drivePd.value);
+          const arbor = (ppd + drivePd) / 2;
+
+          els.arbor.value = r(arbor);
+        }
+
+        if (els.wpd) {
+          const wSizes = getWheelSizes();
+          els.wpd.value = r(wSizes.wpd);
+          els.wod.value = r(wSizes.wod);
+        }
+      }
+
+      const setOutput = () => {
+        setGearing();
+        setSizing();
+      };
+
+      setOutput();
+      this.parentElement.addEventListener('input', (e) => { setOutput(); });
+    }
+  });
+window.customElements.define('escape-lever', class extends HTMLElement {
+    connectedCallback() {
+      const els = {
+        units: document.getElementById('units'),
+        center: document.getElementById('center'),
+        escape: document.getElementById('escape'),
+        factor: this.querySelector(':scope [data-field=factor] input'),
+        bph: this.querySelector(':scope .out .bph'),
+        bpm: this.querySelector(':scope .out .bpm'),
+        bps: this.querySelector(':scope .out .bps'),
+        length: this.querySelector(':scope .out .length'),
+      };
+
+      if (els.escape) {
+        els.escapeWheel = els.escape.querySelector(':scope [data-field=wheel] input');
+        els.speed = els.escape.querySelector(':scope .out .speed');
+      };
+
+      const r = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const getBph = () => r(
+        (parseInt(els.escapeWheel.value) * parseFloat(els.factor.value))
+        * parseFloat(els.speed.value)
+      );
+
+      const setBeats = () => {
+        const bph = getBph();
+        els.bph.value = bph;
+        els.bpm.value = r(bph / 60);
+        els.bps.value = r(bph / 60 / 60);
+      }
+
+      const setLength = () => {
+        const bpm = Math.pow(els.bpm.value, 2);
+        let L = 141220 / bpm;
+
+        if (els.units.value === 'mm') {
+          L = (3578.4 / bpm) * 1000;
+        }
+
+        els.length.value = `${Math.floor(L)}–${Math.ceil(L * 1.2)}`;
+      }
+
+      const setOutput = () => {
+        setBeats();
+        setLength();
+      }
+
+      setOutput();
+      this.parentElement.addEventListener('input', (e) => { setOutput(); });
+    }
+  });
+window.customElements.define('going-train', class extends HTMLElement {});</script>
+
+
+</body>
+</html>

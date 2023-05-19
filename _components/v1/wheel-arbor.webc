@@ -1,0 +1,167 @@
+<fieldset>
+  <legend><span @text="id"></span> wheel arbor</legend>
+
+  <div class="gearing">
+    <div data-field="pinion">
+      <label :for="`pinion-${id}`">Pinion leaves</label>
+      <input type="number" :id="`pinion-${id}`" min="7" :value="dataPinion">
+    </div>
+
+    <div data-field="wheel">
+      <label :for="`wheel-${id}`">Wheel teeth</label>
+      <input type="number" :id="`wheel-${id}`" :value="dataWheel || 30">
+    </div>
+
+    <ul webc:if="dataDrive" class="out">
+      <li>
+        <b>Drive Ratio:</b>
+        <output class="ratio">…</output>:1
+      </li>
+      <li>
+        <b>Drive Force:</b>
+        <output class="force">…</output>
+        <i>lbs</i>
+      </li>
+      <li>
+        <b>Speed:</b>
+        <output class="speed">…</output>
+        <i>rph</i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sizing">
+    <ul class="out">
+      <li>
+        <b>Pinion Pitch:</b>
+        <output class="pinion-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li webc:if="dataDrive">
+        <b>Arbor Spacing:</b>
+        <output class="arbor-space">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+    <ul webc:if="id !== 'escape'" class="out">
+      <li>
+        <b>Wheel Pitch:</b>
+        <output class="wheel-pd">…</output>
+        <output for="units">mm</output>
+      </li>
+      <li>
+        <b>Wheel Outside:</b>
+        <output class="wheel-od">…</output>
+        <output for="units">mm</output>
+      </li>
+    </ul>
+  </div>
+</fieldset>
+
+<style>
+  wheel-arbor {
+    display: block;
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('wheel-arbor', class extends HTMLElement {
+    connectedCallback() {
+      const els = {
+        drive: document.getElementById(this.dataset.drive),
+        great: document.getElementById('great'),
+        center: document.getElementById('center'),
+        power: document.getElementById('drive-force'),
+        wheel: this.querySelector(':scope [data-field=wheel] input'),
+        pinion: this.querySelector(':scope [data-field=pinion] input'),
+        factor: this.querySelector(':scope [data-field=factor] input'),
+        ratio: this.querySelector(':scope .out .ratio'),
+        force: this.querySelector(':scope .out .force'),
+        speed: this.querySelector(':scope .out .speed'),
+        w: document.getElementById('great-w'),
+        ppd: this.querySelector(':scope .out .pinion-pd'),
+        wpd: this.querySelector(':scope .out .wheel-pd'),
+        wod: this.querySelector(':scope .out .wheel-od'),
+        arbor: this.querySelector(':scope .out .arbor-space'),
+      };
+
+      const r = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      if (els.drive) {
+        els.driveWheel = els.drive.querySelector(':scope [data-field=wheel] input');
+        els.trainRatio = els.drive.querySelector(':scope .out .ratio');
+        els.drivePd = this.dataset.drive === 'great'
+          ? document.getElementById('great-pd')
+          : els.drive.querySelector(':scope .out .wheel-pd');
+      }
+
+      if (els.speed && els.center) {
+        els.centerRatio = els.center.querySelector(':scope .out .ratio');
+      }
+
+      const driveRatio = () => {
+        const ratio = parseInt(els.driveWheel.value) / parseInt(els.pinion.value);
+
+        return els.trainRatio
+          ? ratio * parseFloat(els.trainRatio.value)
+          : ratio;
+      };
+
+      const setGearing = () => {
+        if (els.drive) {
+          els.ratio.value = r(driveRatio());
+          els.force.value = r(parseFloat(els.power.value) / driveRatio());
+        }
+
+        if (els.centerRatio) {
+          els.speed.value = r(driveRatio() / parseFloat(els.centerRatio.value));
+        }
+      };
+
+      const getPinionSize = () => {
+        const w = parseFloat(els.w.value);
+        const ps = parseInt(els.pinion.value);
+        return (ps * w) / Math.PI;
+      }
+
+      const getWheelSizes = () => {
+        const w = parseFloat(els.w.value);
+        const ws = parseInt(els.wheel.value);
+
+        const wpd = (ws * w) / Math.PI;
+        const wod = wpd / (ws / (ws + 2));
+
+        return { wpd, wod };
+      }
+
+      const setSizing = () => {
+        const ppd = getPinionSize();
+        els.ppd.value = r(ppd);
+
+        if (els.drivePd) {
+          const drivePd = parseFloat(els.drivePd.value);
+          const arbor = (ppd + drivePd) / 2;
+
+          els.arbor.value = r(arbor);
+        }
+
+        if (els.wpd) {
+          const wSizes = getWheelSizes();
+          els.wpd.value = r(wSizes.wpd);
+          els.wod.value = r(wSizes.wod);
+        }
+      }
+
+      const setOutput = () => {
+        setGearing();
+        setSizing();
+      };
+
+      setOutput();
+      this.parentElement.addEventListener('input', (e) => { setOutput(); });
+    }
+  });
+</script>

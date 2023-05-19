@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clocks!</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>form-field {
+    display: block;
+  }
+clock-wheel {
+    display: block;
+  }
+clock-pinion {
+    display: block;
+  }
+.wxamwef-j{--wind-color: var(--teal-9);--center-color: var(--indigo-9);--escape-color: var(--pink-9);display:block;max-width:70ch;margin:0 auto}@media (prefers-color-scheme:dark){.wxamwef-j{--wind-color: var(--teal-3);--center-color: var(--indigo-3);--escape-color: var(--pink-3)}}.wxamwef-j[is-wind]{--arbor-color: var(--wind-color)}.wxamwef-j[is-center]{--arbor-color: var(--center-color)}.wxamwef-j[is-escape]{--arbor-color: var(--escape-color)}.wxamwef-j fieldset{border-color:var(--arbor-color)}.wxamwef-j legend{color:var(--arbor-color)}
+#train-settings {
+    border-style: dotted;
+  }
+
+  split-train {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(30ch, 100%), 1fr));
+    justify-content: center;
+  }
+
+  .out {
+    border-block-start: thin dotted;
+    margin-block-start: var(--gap);
+    padding-block-start: var(--gap);
+  }</style>
+</head>
+<body>
+  <header>
+    <h1>Neon Time</h1>
+  </header>
+
+  <main><clock-train><h2>Going Train</h2>
+
+<fieldset id="train-settings">
+  <legend>general settings</legend>
+  <form-field>
+    <label for="size-unit">
+      size
+    </label>
+    <select name="size-unit" id="size-unit">
+      <option value="mm" selected>mm</option>
+      <option value="in">in</option>
+    </select>
+  
+
+
+
+
+</form-field>
+
+  <form-field>
+    <label for="force-unit">
+      force
+    </label>
+    <select name="force-unit" id="force-unit">
+      <option value="lb" selected>lb</option>
+      <option value="kg">kg</option>
+    </select>
+  
+
+
+
+
+</form-field>
+</fieldset>
+
+
+
+  <clock-arbor id="wind" is-wind class="wxamwef-j"><fieldset>
+  <legend>
+    <span>wind</span>
+    arbor
+  </legend>
+
+  
+    <form-field>
+  <label for="weight-webc-r8JHV">
+    drive weight
+  </label>
+  <input id="weight-webc-r8JHV" value="5" type="number" min="2" max="20">
+  <output for="force-unit">…</output>
+
+
+
+
+
+</form-field>
+
+
+  <clock-wheel id="great-wheel" data-od data-teeth="60"><form-field>
+  <label for="wheel-webc-Ajprw">great-wheel</label>
+  <input id="wheel-webc-Ajprw" value="60" type="number" min="20" max="120">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+
+
+</clock-wheel>
+  
+
+  <dl hidden>
+    <div>
+      <dt>Step ratio</dt>
+      <dd><output id="Step-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Force ratio</dt>
+      <dd><output id="force-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Time ratio</dt>
+      <dd><output id="time-ratio">…</output></dd>
+    </div>
+  </dl>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+
+  <clock-arbor id="second" class="wxamwef-j"><fieldset>
+  <legend>
+    <span>second</span>
+    arbor
+  </legend>
+
+  
+    <clock-pinion data-from="great-wheel" data-leaves="20"><form-field>
+  <label for="pinion-great-wheel">pinion (from great-wheel)</label>
+  <input id="pinion-great-wheel" value="20" type="number" min="6" max="30">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+</clock-pinion>
+
+    <clock-wheel id="second-wheel" data-teeth="64"><form-field>
+  <label for="wheel-webc-SLtQw">second-wheel</label>
+  <input id="wheel-webc-SLtQw" value="64" type="number" min="20" max="120">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+
+
+</clock-wheel>
+  
+
+  <dl hidden>
+    <div>
+      <dt>Step ratio</dt>
+      <dd><output id="Step-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Force ratio</dt>
+      <dd><output id="force-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Time ratio</dt>
+      <dd><output id="time-ratio">…</output></dd>
+    </div>
+  </dl>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+
+  <split-train>
+    <train-part>
+
+      <clock-arbor id="center" is-center class="wxamwef-j"><fieldset>
+  <legend>
+    <span>center</span>
+    arbor
+  </legend>
+
+  
+        <clock-pinion data-from="second-wheel" data-leaves="8"><form-field>
+  <label for="pinion-second-wheel">pinion (from second-wheel)</label>
+  <input id="pinion-second-wheel" value="8" type="number" min="6" max="30">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+</clock-pinion>
+
+        <clock-wheel id="center-wheel" data-teeth="60"><form-field>
+  <label for="wheel-webc-49PZ0">center-wheel</label>
+  <input id="wheel-webc-49PZ0" value="60" type="number" min="20" max="120">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+
+
+</clock-wheel>
+      
+
+  <dl hidden>
+    <div>
+      <dt>Step ratio</dt>
+      <dd><output id="Step-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Force ratio</dt>
+      <dd><output id="force-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Time ratio</dt>
+      <dd><output id="time-ratio">…</output></dd>
+    </div>
+  </dl>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+
+    </train-part>
+    <train-part>
+
+      <clock-arbor id="third" class="wxamwef-j"><fieldset>
+  <legend>
+    <span>third</span>
+    arbor
+  </legend>
+
+  
+        <clock-pinion data-from="second-wheel" data-leaves="8"><form-field>
+  <label for="pinion-second-wheel">pinion (from second-wheel)</label>
+  <input id="pinion-second-wheel" value="8" type="number" min="6" max="30">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+</clock-pinion>
+
+        <clock-wheel id="third-wheel" data-teeth="60"><form-field>
+  <label for="wheel-webc-eTm3c">third-wheel</label>
+  <input id="wheel-webc-eTm3c" value="60" type="number" min="20" max="120">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+
+
+</clock-wheel>
+      
+
+  <dl hidden>
+    <div>
+      <dt>Step ratio</dt>
+      <dd><output id="Step-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Force ratio</dt>
+      <dd><output id="force-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Time ratio</dt>
+      <dd><output id="time-ratio">…</output></dd>
+    </div>
+  </dl>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+
+      <clock-arbor id="escape" is-escape class="wxamwef-j"><fieldset>
+  <legend>
+    <span>escape</span>
+    arbor
+  </legend>
+
+  
+        <clock-pinion data-from="third-wheel" data-leaves="8"><form-field>
+  <label for="pinion-third-wheel">pinion (from third-wheel)</label>
+  <input id="pinion-third-wheel" value="8" type="number" min="6" max="30">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+</clock-pinion>
+
+        <clock-wheel id="escape-wheel" data-teeth="30"><form-field>
+  <label for="wheel-webc-Y9f6p">escape-wheel</label>
+  <input id="wheel-webc-Y9f6p" value="30" type="number" min="20" max="120">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+
+
+</clock-wheel>
+      
+
+  <dl hidden>
+    <div>
+      <dt>Step ratio</dt>
+      <dd><output id="Step-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Force ratio</dt>
+      <dd><output id="force-ratio">…</output></dd>
+    </div>
+    <div>
+      <dt>Time ratio</dt>
+      <dd><output id="time-ratio">…</output></dd>
+    </div>
+  </dl>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+
+    </train-part>
+  </split-train>
+
+
+<dl class="out">
+  <dt>Arbor Count</dt>
+  <dd><output class="arbor-count">…</output></dd>
+</dl>
+
+
+
+
+</clock-train>
+</main>
+
+  <script>window.customElements.define('form-field', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+window.customElements.define('clock-wheel', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+window.customElements.define('clock-pinion', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+window.customElements.define('clock-arbor', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+window.customElements.define('clock-train', class extends HTMLElement {
+    connectedCallback() {
+      const input = {
+        forceUnit: this.querySelector(':scope #force-unit'),
+        sizeUnit: this.querySelector(':scope #size-unit'),
+      };
+
+      const output = {
+        arborCount: this.querySelector(':scope dl .arbor-count'),
+        forceUnit: document.querySelectorAll(':scope output[for=force-unit]'),
+        sizeUnit: document.querySelectorAll(':scope output[for=size-unit]'),
+      };
+
+      // counting arbors
+      const countArbors = () => this.querySelectorAll(':scope clock-arbor').length;
+      const wheelCount = () => { output.arborCount.value = countArbors(); }
+
+      // updating unit
+      const forceUnit = () =>
+        output.forceUnit.forEach((out) => out.value = input.forceUnit.value);
+
+      const sizeUnit = () =>
+        output.sizeUnit.forEach((out) => out.value = input.sizeUnit.value);
+
+      // event listeners
+      input.forceUnit.addEventListener('input', (e) => { forceUnit(); });
+      input.sizeUnit.addEventListener('input', (e) => { sizeUnit(); });
+
+      // general updates
+      const doUpdate = () => {
+        forceUnit();
+        sizeUnit();
+        wheelCount();
+      }
+
+      doUpdate();
+
+      const trainChange = new MutationObserver((mutationList, observer) => {
+        doUpdate();
+      });
+
+      trainChange.observe(this, { childList: true });
+    }
+  });</script>
+
+
+</body>
+</html>

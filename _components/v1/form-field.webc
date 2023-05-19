@@ -1,0 +1,15 @@
+<slot></slot>
+
+<style>
+  form-field {
+    display: block;
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('form-field', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+</script>

@@ -1,0 +1,33 @@
+<form-field
+  :@data-from="dataFrom"
+  :@data-to="dataTo"
+  :@data-leaves="dataLeaves"
+>
+  <label
+    :for="`pinion-${this.dataFrom || this.dataTo}`"
+    @text="`pinion (${this.dataFrom ? 'from' : 'to'} ${this.dataFrom || this.dataTo})`"
+  >
+  </label>
+  <input
+    :id="`pinion-${this.dataFrom || this.dataTo}`"
+    :value="this.dataLeaves || 8"
+    type="number"
+    min="6"
+    max="30"
+  />
+</form-field>
+
+<style>
+  clock-pinion {
+    display: block;
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('clock-pinion', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+</script>
+

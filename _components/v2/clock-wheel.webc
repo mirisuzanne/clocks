@@ -1,0 +1,46 @@
+<form-field
+  :@label="this.name || this.id || this.uid"
+  :@data-teeth="dataTeeth"
+>
+  <label
+    :for="`wheel-${this.uid}`"
+    @html="this.label"></label>
+  <input
+    :id="`wheel-${this.uid}`"
+    :value="this.dataTeeth || 60"
+    type="number"
+    min="20"
+    max="120"
+  />
+</form-field>
+
+<form-field
+  webc:if="dataOd"
+  :@data-od="dataOd"
+>
+  <label :for="`od-${this.uid}`">
+    outside diameter
+  </label>
+  <input
+    :id="`od-${this.uid}`"
+    :value="this.dataOd || 200"
+    type="number"
+    min="20"
+    max="120"
+  />
+</form-field>
+
+<style>
+  clock-wheel {
+    display: block;
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('clock-wheel', class extends HTMLElement {
+    connectedCallback() {
+
+    }
+  });
+</script>
+

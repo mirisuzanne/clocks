@@ -1,0 +1,14 @@
+/* the props */
+@import "https://unpkg.com/open-props";
+
+/* optional imports that use the props */
+@import "https://unpkg.com/open-props/normalize.min.css";
+@import "https://unpkg.com/open-props/buttons.min.css";
+
+html {
+  --gap: var(--size-3);
+}
+
+body {
+  padding: var(--gap);
+}

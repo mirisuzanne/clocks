@@ -25,10 +25,10 @@ clock-pinion {
 clock-arbor dl {
     margin-block: var(--thin);
   }
-.wdlmvvuc9{--wind-color: var(--teal-9);--center-color: var(--indigo-9);--escape-color: var(--pink-9);--wheel-color: var(--blue-9);--pinion-color: var(--orange-9);display:block;max-width:70ch;margin:0 auto}@media (prefers-color-scheme:dark){.wdlmvvuc9{--wind-color: var(--teal-3);--center-color: var(--indigo-3);--escape-color: var(--pink-3);--wheel-color: var(--blue-3);--pinion-color: var(--orange-3)}}.wdlmvvuc9[data-is=wind]{--arbor-color: var(--wind-color)}.wdlmvvuc9[data-is=center]{--arbor-color: var(--center-color)}.wdlmvvuc9[data-is=escape]{--arbor-color: var(--escape-color)}.wdlmvvuc9 fieldset{border-color:var(--arbor-color)}.wdlmvvuc9 legend{color:var(--arbor-color)}.wdlmvvuc9 [data-parts]{display:grid;gap:var(--thin);> * {
+.wl5crfpkj{--wind-color: var(--teal-9);--center-color: var(--indigo-9);--escape-color: var(--pink-9);--wheel-color: var(--blue-7);--pinion-color: var(--orange-7);display:block;max-width:70ch;margin:0 auto}@media (prefers-color-scheme:dark){.wl5crfpkj{--wind-color: var(--teal-3);--center-color: var(--indigo-3);--escape-color: var(--pink-3);--wheel-color: var(--blue-5);--pinion-color: var(--orange-5)}}.wl5crfpkj[data-is=wind]{--arbor-color: var(--wind-color)}.wl5crfpkj[data-is=center]{--arbor-color: var(--center-color)}.wl5crfpkj[data-is=escape]{--arbor-color: var(--escape-color)}.wl5crfpkj fieldset{border-color:var(--arbor-color)}.wl5crfpkj legend{color:var(--arbor-color)}.wl5crfpkj .parts{display:grid;gap:var(--thin);> * {
       border-inline-start: thick solid var(--part-color, var(--gray-6));
       padding-inline-start: var(--medium);
-    }}.wdlmvvuc9 [data-out=arbor]{border-block-start:thin dotted;margin-block-start:var(--gap);padding-block-start:var(--gap)}
+    }}.wl5crfpkj [data-out=arbor]{border-block-start:thin dotted;margin-block-start:var(--gap);padding-block-start:var(--gap)}
 #train-settings {
     border-style: dotted;
   }
@@ -82,7 +82,7 @@ clock-arbor dl {
 
 
 
-  <clock-arbor id="wind" data-is="wind" class="wdlmvvuc9"><fieldset>
+  <clock-arbor id="wind" data-is="wind" class="wl5crfpkj"><fieldset>
   <legend>
     <span>wind</span>
     arbor
@@ -91,10 +91,10 @@ clock-arbor dl {
   <div class="parts">
     
     <clock-drive><form-field>
-  <label for="drive-webc-Pghy4">
+  <label for="drive-webc-3JmI6">
     drive weight
   </label>
-  <input value="5" id="drive-webc-Pghy4" type="number" min="2" max="20" class="force">
+  <input value="5" id="drive-webc-3JmI6" type="number" min="2" max="20" class="force">
   <output for="force-unit">…</output>
 
 
@@ -120,8 +120,8 @@ clock-arbor dl {
 </clock-drive>
 
     <clock-wheel id="great-wheel" data-od data-teeth="60"><form-field>
-  <label for="wheel-webc-F0mme">great-wheel</label>
-  <input id="wheel-webc-F0mme" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-1IB5S">great-wheel</label>
+  <input id="wheel-webc-1IB5S" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -150,7 +150,7 @@ clock-arbor dl {
 
 </clock-arbor>
 
-  <clock-arbor id="second" data-drive="great-wheel" class="wdlmvvuc9"><fieldset>
+  <clock-arbor id="second" data-drive="great-wheel" class="wl5crfpkj"><fieldset>
   <legend>
     <span>second</span>
     arbor
@@ -185,8 +185,8 @@ clock-arbor dl {
 </clock-pinion>
 
     <clock-wheel id="second-wheel" data-teeth="64"><form-field>
-  <label for="wheel-webc-5XZKI">second-wheel</label>
-  <input id="wheel-webc-5XZKI" value="64" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-5QNm0">second-wheel</label>
+  <input id="wheel-webc-5QNm0" value="64" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -245,9 +245,9 @@ clock-arbor dl {
 </clock-arbor>
 
   <split-train>
-    <train-part>
+    <div>
 
-      <clock-arbor id="center" data-is="center" data-drive="second-wheel" class="wdlmvvuc9"><fieldset>
+      <clock-arbor id="center" data-is="center" data-drive="second-wheel" class="wl5crfpkj"><fieldset>
   <legend>
     <span>center</span>
     arbor
@@ -282,8 +282,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="center-wheel" data-teeth="60"><form-field>
-  <label for="wheel-webc-NZJ-q">center-wheel</label>
-  <input id="wheel-webc-NZJ-q" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-rOdda">center-wheel</label>
+  <input id="wheel-webc-rOdda" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -341,10 +341,10 @@ clock-arbor dl {
 
 </clock-arbor>
 
-    </train-part>
-    <train-part>
+    </div>
+    <div>
 
-      <clock-arbor id="third" data-drive="second-wheel" class="wdlmvvuc9"><fieldset>
+      <clock-arbor id="third" data-drive="second-wheel" class="wl5crfpkj"><fieldset>
   <legend>
     <span>third</span>
     arbor
@@ -379,8 +379,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="third-wheel" data-teeth="60"><form-field>
-  <label for="wheel-webc-IjOGP">third-wheel</label>
-  <input id="wheel-webc-IjOGP" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-15NFt">third-wheel</label>
+  <input id="wheel-webc-15NFt" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -438,7 +438,7 @@ clock-arbor dl {
 
 </clock-arbor>
 
-      <clock-arbor id="escape" data-is="escape" data-drive="third-wheel" class="wdlmvvuc9"><fieldset>
+      <clock-arbor id="escape" data-is="escape" data-drive="third-wheel" class="wl5crfpkj"><fieldset>
   <legend>
     <span>escape</span>
     arbor
@@ -473,8 +473,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="escape-wheel" data-teeth="30"><form-field>
-  <label for="wheel-webc-Gqj0z">escape-wheel</label>
-  <input id="wheel-webc-Gqj0z" value="30" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-gqiE_">escape-wheel</label>
+  <input id="wheel-webc-gqiE_" value="30" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -532,7 +532,7 @@ clock-arbor dl {
 
 </clock-arbor>
 
-    </train-part>
+    </div>
   </split-train>
 
 

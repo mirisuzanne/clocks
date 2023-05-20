@@ -54,8 +54,8 @@
     --wind-color: var(--teal-9);
     --center-color: var(--indigo-9);
     --escape-color: var(--pink-9);
-    --wheel-color: var(--blue-9);
-    --pinion-color: var(--orange-9);
+    --wheel-color: var(--blue-7);
+    --pinion-color: var(--orange-7);
     display: block;
     max-width: 70ch;
     margin: 0 auto;
@@ -66,8 +66,8 @@
       --wind-color: var(--teal-3);
       --center-color: var(--indigo-3);
       --escape-color: var(--pink-3);
-      --wheel-color: var(--blue-3);
-      --pinion-color: var(--orange-3);
+      --wheel-color: var(--blue-5);
+      --pinion-color: var(--orange-5);
     }
   }
 
@@ -91,7 +91,7 @@
     color: var(--arbor-color);
   }
 
-  [data-parts] {
+  .parts {
     display: grid;
     gap: var(--thin);
 

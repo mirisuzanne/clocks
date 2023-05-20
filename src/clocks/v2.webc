@@ -37,7 +37,7 @@ title: V2 Clock Tool
   </clock-arbor>
 
   <split-train>
-    <train-part>
+    <div>
 
       <clock-arbor
         id="center"
@@ -55,8 +55,8 @@ title: V2 Clock Tool
         ></clock-wheel>
       </clock-arbor>
 
-    </train-part>
-    <train-part>
+    </div>
+    <div>
 
       <clock-arbor
         id="third"
@@ -88,6 +88,6 @@ title: V2 Clock Tool
         ></clock-wheel>
       </clock-arbor>
 
-    </train-part>
+    </div>
   </split-train>
 </clock-train>

@@ -41,17 +41,12 @@
     grid-template-columns: repeat(auto-fit, minmax(min(30ch, 100%), 1fr));
     justify-content: center;
   }
-
-  .out {
-    border-block-start: thin dotted;
-    margin-block-start: var(--gap);
-    padding-block-start: var(--gap);
-  }
 </style>
 
 <script type="module">
   window.customElements.define('clock-train', class extends HTMLElement {
     connectedCallback() {
+      // elements
       const input = {
         forceUnit: this.querySelector(':scope #force-unit'),
         sizeUnit: this.querySelector(':scope #size-unit'),

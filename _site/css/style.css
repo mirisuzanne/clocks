@@ -1,14 +1,251 @@
 /* the props */
-@import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props" layer;
 
-/* optional imports that use the props */
-@import "https://unpkg.com/open-props/normalize.min.css";
-@import "https://unpkg.com/open-props/buttons.min.css";
+/* some styles */
+*,:after,:before { box-sizing:border-box; }
 
 html {
+  --link: var(--indigo-7);
+  --link-focus: var(--purple-7);
+  --text-1: var(--gray-9);
+  --text-2: var(--gray-7);
+  --bg: var(--gray-0);
+  --bg-1: var(--gray-1);
+  --bg-2: var(--gray-2);
+  --bg-3: var(--gray-3);
+  --bg-4: var(--gray-4);
+
+  --thin: var(--size-1);
+  --medium: var(--size-2);
   --gap: var(--size-3);
+
+  -webkit-text-size-adjust: none;
+  accent-color: var(--brand, var(--link));
+  background-color: var(--bg-1);
+  block-size: 100%;
+  caret-color: var(--brand, var(--link));
+  color: var(--text-2);
+  color-scheme: light dark;
+  font-family: var(--font-sans);
+  line-height: var(--font-lineheight-3);
+}
+
+@media (prefers-color-scheme:dark) {
+  html {
+    --link: var(--indigo-3);
+    --link-focus: var(--purple-3);
+    --text-1: var(--gray-1);
+    --text-2: var(--gray-4);
+    --bg: var(--gray-10);
+    --bg-1: var(--gray-9);
+    --bg-2: var(--gray-8);
+    --bg-3: var(--gray-7);
+    --bg-4: var(--gray-6);
+    color-scheme:dark light;
+  }
 }
 
 body {
+  margin: 0;
+  min-block-size: 100%;
   padding: var(--gap);
+}
+
+button {
+  --_highlight: var(--_highlight-light);
+  --_bg: var(--_bg-light);
+  --_ink-shadow: var(--_ink-shadow-light);
+}
+
+[disabled] {
+  --_text: var(--gray-6);
+}
+
+textarea,
+select,
+input:not([type=button],[type=submit],[type=reset]) {
+  background-color: var(--bg);
+  border: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color: var(--text-1);
+  font-weight: var(--font-weight-9);
+  line-height: var(--font-lineheight-1);
+}
+
+a:any-link {
+  color: var(--brand, var(--link));
+}
+
+a:hover,
+a:focus,
+a:active {
+  color:var(--link-focus);
+}
+
+:focus-visible{
+  outline-color: var(--brand, var(--link));
+}
+
+@media (prefers-reduced-motion:no-preference) {
+  :focus-visible {
+    transition: outline-offset 145ms var(--ease-2);
+  }
+}
+
+:not(:active):focus-visible {
+  transition-duration:.25s;
+  outline-offset: 5px;
+}
+
+h1 { font-size: var(--font-size-8); }
+h2 { font-size: var(--font-size-6); }
+h3 { font-size: var(--font-size-5); }
+h4 { font-size: var(--font-size-4); }
+h5 { font-size: var(--font-size-3); }
+
+a,u,ins,abbr {
+  text-underline-offset: 1px;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block
+}
+
+img, svg, video {
+  block-size: auto;
+  max-inline-size: 100%;
+}
+
+input, button, textarea, select,
+input[type=file]::-webkit-file-upload-button{
+  color: inherit;
+  font: inherit;
+  font-size: inherit;
+  letter-spacing:inherit;
+}
+
+input:not([type=range]), textarea, select {
+  padding-block: var(--size-1);
+  padding-inline: var(--size-2);
+}
+
+textarea, select,
+input:not([type=button], [type=submit], [type=reset]) {
+  background-color: var(--bg);
+  border-radius: var(--radius-2);
+}
+
+textarea {
+  resize:block;
+}
+
+input[type=checkbox], input[type=radio] {
+  block-size: var(--size-3);
+  inline-size:var(--size-3)
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+}
+
+pre {
+  white-space: pre;
+  writing-mode: lr;
+}
+
+:not(pre) > code {
+  background: var(--bg-2);
+  border-radius: var(--radius-2);
+  padding: var(--size-1) var(--size-2);
+  writing-mode: lr;
+}
+
+mark {
+  border-radius:var(--radius-2);
+  padding-inline:var(--size-1);
+}
+
+ol, ul {
+  padding-inline-start: var(--size-8);
+}
+
+li {
+  padding-inline-start: var(--size-2);
+}
+
+small {
+  font-size: max(.5em, var(--font-size-0));
+}
+
+hr {
+  background-color: var(--bg-3);
+  height: var(--border-size-2);
+  margin-block: var(--size-fluid-5);
+}
+
+figure {
+  display: grid;
+  gap: var(--size-2);
+  place-items: center;
+}
+
+figure > figcaption {
+  font-size: var(--font-size-1);
+}
+
+blockquote {
+  border-inline-start-width: var(--border-size-3);
+  display: grid;
+  gap: var(--size-3);
+  padding-block: var(--size-3);
+  padding-inline: var(--size-4);
+}
+
+details {
+  background: var(--bg-2);
+  border-radius: var(--radius-2);
+  padding-block: var(--size-2);
+  padding-inline: var(--size-3);
+}
+
+fieldset {
+  border: var(--border-size-1) solid var(--bg-4);
+  border-radius: var(--radius-2);
+}
+
+del {
+  background: var(--red-9);
+  color: var(--red-2);
+}
+
+ins {
+  background: var(--green-9);
+  color: var(--green-1);
+}
+
+sup {
+  font-size: 0.5em;
+}
+
+dt {
+  display: inline-block;
+
+  &::after {
+    content: ':';
+  }
+}
+
+dd {
+  display: inline;
+  font-family: var(--font-mono);
+  margin-inline-start: 0;
+}
+
+output:not([for*=-unit]) {
+  background-color: var(--bg-2);
+  border-radius: var(--radius-2);
+  padding-block: var(--size-1);
+  padding-inline: var(--size-2);
 }

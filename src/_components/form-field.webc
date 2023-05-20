@@ -3,13 +3,12 @@
 <style>
   form-field {
     display: block;
+    margin-block: var(--thin);
   }
 </style>
 
 <script type="module">
   window.customElements.define('form-field', class extends HTMLElement {
-    connectedCallback() {
-
-    }
+    connectedCallback() { }
   });
 </script>

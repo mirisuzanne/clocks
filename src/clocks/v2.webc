@@ -1,0 +1,93 @@
+---
+layout: base
+title: V2 Clock Tool
+---
+
+<clock-train @title="Going Train">
+
+  <clock-arbor
+    id="wind"
+    data-is="wind"
+  >
+    <clock-drive
+      @weight="5"
+      @size="24"
+    ></clock-drive>
+
+    <clock-wheel
+      id="great-wheel"
+      data-od
+      data-teeth="60"
+    ></clock-wheel>
+  </clock-arbor>
+
+  <clock-arbor
+    id="second"
+    data-drive="great-wheel"
+  >
+    <clock-pinion
+      data-for="great-wheel"
+      data-leaves="20"
+    ></clock-pinion>
+
+    <clock-wheel
+      id="second-wheel"
+      data-teeth="64"
+    ></clock-wheel>
+  </clock-arbor>
+
+  <split-train>
+    <train-part>
+
+      <clock-arbor
+        id="center"
+        data-is="center"
+        data-drive="second-wheel"
+      >
+        <clock-pinion
+          data-for="second-wheel"
+          data-leaves="8"
+        ></clock-pinion>
+
+        <clock-wheel
+          id="center-wheel"
+          data-teeth="60"
+        ></clock-wheel>
+      </clock-arbor>
+
+    </train-part>
+    <train-part>
+
+      <clock-arbor
+        id="third"
+        data-drive="second-wheel"
+      >
+        <clock-pinion
+          data-for="second-wheel"
+          data-leaves="8"
+        ></clock-pinion>
+
+        <clock-wheel id="third-wheel"
+          data-teeth="60"
+        ></clock-wheel>
+      </clock-arbor>
+
+      <clock-arbor
+        id="escape"
+        data-is="escape"
+        data-drive="third-wheel"
+      >
+        <clock-pinion
+          data-for="third-wheel"
+          data-leaves="8"
+        ></clock-pinion>
+
+        <clock-wheel
+          id="escape-wheel"
+          data-teeth="30"
+        ></clock-wheel>
+      </clock-arbor>
+
+    </train-part>
+  </split-train>
+</clock-train>

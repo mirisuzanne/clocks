@@ -1,0 +1,35 @@
+<form-field>
+  <label :for="`drive-${this.uid}`">
+    drive weight
+  </label>
+  <input
+    :value="this.weight || 5"
+    :id="`drive-${this.uid}`"
+    type="number"
+    min="2"
+    max="20"
+    class="force"
+  />
+  <output for="force-unit">…</output>
+</form-field>
+
+<form-field>
+  <label for="ratchet-size">
+    ratchet size
+  </label>
+  <input
+    :value="this.size || 1"
+    id="ratchet-size"
+    type="number"
+    min="0"
+    max="50"
+  />
+  <output for="size-unit">…</output>
+</form-field>
+
+<style>
+  clock-drive {
+    display: block;
+    --part-color: var(--wind-color);
+  }
+</style>

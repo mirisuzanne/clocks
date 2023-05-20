@@ -1,0 +1,195 @@
+<fieldset>
+  <legend>
+    <span @html="name || id || this.uid"></span>
+    arbor
+  </legend>
+
+  <div class="parts">
+    <slot></slot>
+  </div>
+
+  <dl webc:if="this.dataDrive" data-out="arbor">
+    <div>
+      <dt>step ratio</dt>
+      <dd>
+        <output data-show="ratio">…</output>
+        <span class="unit">: 1</span>
+      </dd>
+    </div>
+    <div>
+      <dt>drive ratio</dt>
+      <dd>
+        <output data-show="drive">…</output>
+        <span class="unit">: 1</span>
+      </dd>
+    </div>
+    <div>
+      <dt>drive force</dt>
+      <dd>
+        <output data-show="force">…</output>
+        <output for="force-unit">…</output>
+      </dd>
+    </div>
+    <div>
+      <dt>timing</dt>
+      <dd>
+        <output
+          data-show="rph"
+          @text="dataIs === 'center' ? 1 : '…'"
+        ></output>
+        <span class="unit">rph</span>
+      </dd>
+    </div>
+  </dl>
+</fieldset>
+
+<style>
+  clock-arbor dl {
+    margin-block: var(--thin);
+  }
+</style>
+
+<style webc:scoped>
+  :host {
+    --wind-color: var(--teal-9);
+    --center-color: var(--indigo-9);
+    --escape-color: var(--pink-9);
+    --wheel-color: var(--blue-9);
+    --pinion-color: var(--orange-9);
+    display: block;
+    max-width: 70ch;
+    margin: 0 auto;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :host {
+      --wind-color: var(--teal-3);
+      --center-color: var(--indigo-3);
+      --escape-color: var(--pink-3);
+      --wheel-color: var(--blue-3);
+      --pinion-color: var(--orange-3);
+    }
+  }
+
+  :host[data-is=wind] {
+    --arbor-color: var(--wind-color);
+  }
+
+  :host[data-is=center] {
+    --arbor-color: var(--center-color);
+  }
+
+  :host[data-is=escape] {
+    --arbor-color: var(--escape-color);
+  }
+
+  fieldset {
+    border-color: var(--arbor-color);
+  }
+
+  legend {
+    color: var(--arbor-color);
+  }
+
+  [data-parts] {
+    display: grid;
+    gap: var(--thin);
+
+    > * {
+      border-inline-start: thick solid var(--part-color, var(--gray-6));
+      padding-inline-start: var(--medium);
+    }
+  }
+
+  [data-out=arbor] {
+    border-block-start: thin dotted;
+    margin-block-start: var(--gap);
+    padding-block-start: var(--gap);
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('clock-arbor', class extends HTMLElement {
+    connectedCallback() {
+      // utils
+      const ish = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const name = (el) => el.tagName.toLowerCase().split('-').at(-1);
+
+      const mapOutput = (el, map = {}) => {
+        el.querySelectorAll(`:scope [data-out=${name(el)}] [data-show]`)
+          .forEach((out) => { map[out.dataset.show] = out; });
+
+        return map;
+      };
+
+      // elements
+      const output = mapOutput(this);
+
+      // drive
+      const drive = {
+        from: document.getElementById(this.dataset.drive),
+        to: this.querySelector(`:scope .parts [data-for=${this.dataset.drive}]`),
+      };
+
+      if (drive.from && drive.to) {
+        const fromInput = drive.from.querySelector(':scope .teeth');
+        const toInput = drive.to.querySelector(':scope .teeth');
+
+        const driveArbor = drive.from.closest('clock-arbor');
+        const driveOut = driveArbor.dataset.is === 'wind'
+          ? {
+            ratio: { value: 1 },
+            force: driveArbor.querySelector(':scope input.force'),
+          }
+          : mapOutput(driveArbor);
+
+        const getRatio = () => parseInt(fromInput.value) / parseInt(toInput.value);
+        const getDrive = () => getRatio() * parseFloat(driveOut.ratio.value);
+        const getForce = () => parseFloat(driveOut.force.value) / getRatio();
+
+        const setRatio = () => { output.ratio.value = ish(getRatio()); };
+        const setDrive = () => { output.drive.value = ish(getDrive()); };
+        const setForce = () => { output.force.value = ish(getForce()); };
+
+        const updateArbor = () => {
+          setRatio();
+          setDrive();
+          setForce();
+        }
+
+        updateArbor();
+        this.addEventListener('change', (e) => { updateArbor(); });
+        drive.from.addEventListener('change', (e) => { updateArbor(); });
+
+
+        const centerArbor = this
+          .closest('clock-train').querySelector(':scope [data-is=center]');
+        const centerDrive = centerArbor
+          .querySelector(':scope [data-out=arbor] [data-show=drive]');
+
+        const setRph = () => {
+          if (centerDrive.value) {
+            const rph = getDrive() / parseFloat(centerDrive.value);
+            output.rph.value = ish(rph);
+          }
+        }
+
+        if (centerArbor !== this) {
+          setRph();
+          centerArbor.addEventListener('change', (e) => { setRph(); });
+
+          const centerChange = new MutationObserver((mutationList, observer) => {
+            setRph();
+          });
+
+          centerChange.observe(centerDrive, { childList: true });
+        }
+      }
+    }
+  });
+</script>
+

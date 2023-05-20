@@ -1,25 +1,36 @@
 <form-field
-  :@data-from="dataFrom"
-  :@data-to="dataTo"
+  :@data-for="dataFor"
   :@data-leaves="dataLeaves"
 >
   <label
-    :for="`pinion-${this.dataFrom || this.dataTo}`"
-    @text="`pinion (${this.dataFrom ? 'from' : 'to'} ${this.dataFrom || this.dataTo})`"
+    :for="`pinion-${this.dataFor}`"
+    @text="`pinion (${this.dataFor})`"
   >
   </label>
   <input
-    :id="`pinion-${this.dataFrom || this.dataTo}`"
+    :id="`pinion-${this.dataFor}`"
     :value="this.dataLeaves || 8"
     type="number"
     min="6"
     max="30"
+    class="teeth"
   />
 </form-field>
+
+<dl data-out="pinion">
+  <div>
+    <dt>pitch diameter</dt>
+    <dd>
+      <output data-show="pd">…</output>
+      <output for="size-unit">…</output>
+    </dd>
+  </div>
+</dl>
 
 <style>
   clock-pinion {
     display: block;
+    --part-color: var(--pinion-color);
   }
 </style>
 

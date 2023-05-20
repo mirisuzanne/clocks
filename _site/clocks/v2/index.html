@@ -91,10 +91,10 @@ clock-arbor dl {
   <div class="parts">
     
     <clock-drive><form-field>
-  <label for="drive-webc-d3kOg">
+  <label for="drive-webc-Pghy4">
     drive weight
   </label>
-  <input value="5" id="drive-webc-d3kOg" type="number" min="2" max="20" class="force">
+  <input value="5" id="drive-webc-Pghy4" type="number" min="2" max="20" class="force">
   <output for="force-unit">…</output>
 
 
@@ -120,8 +120,8 @@ clock-arbor dl {
 </clock-drive>
 
     <clock-wheel id="great-wheel" data-od data-teeth="60"><form-field>
-  <label for="wheel-webc-Auv6b">great-wheel</label>
-  <input id="wheel-webc-Auv6b" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-F0mme">great-wheel</label>
+  <input id="wheel-webc-F0mme" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -185,8 +185,8 @@ clock-arbor dl {
 </clock-pinion>
 
     <clock-wheel id="second-wheel" data-teeth="64"><form-field>
-  <label for="wheel-webc-vkbFq">second-wheel</label>
-  <input id="wheel-webc-vkbFq" value="64" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-5XZKI">second-wheel</label>
+  <input id="wheel-webc-5XZKI" value="64" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -282,8 +282,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="center-wheel" data-teeth="60"><form-field>
-  <label for="wheel-webc-WhlHe">center-wheel</label>
-  <input id="wheel-webc-WhlHe" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-NZJ-q">center-wheel</label>
+  <input id="wheel-webc-NZJ-q" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -379,8 +379,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="third-wheel" data-teeth="60"><form-field>
-  <label for="wheel-webc-vRA2H">third-wheel</label>
-  <input id="wheel-webc-vRA2H" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-IjOGP">third-wheel</label>
+  <input id="wheel-webc-IjOGP" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -473,8 +473,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="escape-wheel" data-teeth="30"><form-field>
-  <label for="wheel-webc-pY9kl">escape-wheel</label>
-  <input id="wheel-webc-pY9kl" value="30" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-Gqj0z">escape-wheel</label>
+  <input id="wheel-webc-Gqj0z" value="30" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -610,13 +610,24 @@ window.customElements.define('clock-arbor', class extends HTMLElement {
           setRatio();
           setDrive();
           setForce();
-        }
+        };
 
+        // drive events
         updateArbor();
         this.addEventListener('change', (e) => { updateArbor(); });
-        drive.from.addEventListener('change', (e) => { updateArbor(); });
+        driveArbor.addEventListener('change', (e) => {
+          updateArbor();
+        });
 
+        const driveChange = new MutationObserver((mutationList, observer) => {
+          updateArbor();
+        });
 
+        driveArbor.querySelectorAll(':scope output').forEach((out) => {
+          driveChange.observe(out, { childList: true });
+        });
+
+        // timing events
         const centerArbor = this
           .closest('clock-train').querySelector(':scope [data-is=center]');
         const centerDrive = centerArbor

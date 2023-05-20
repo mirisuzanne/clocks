@@ -159,13 +159,24 @@
           setRatio();
           setDrive();
           setForce();
-        }
+        };
 
+        // drive events
         updateArbor();
         this.addEventListener('change', (e) => { updateArbor(); });
-        drive.from.addEventListener('change', (e) => { updateArbor(); });
+        driveArbor.addEventListener('change', (e) => {
+          updateArbor();
+        });
 
+        const driveChange = new MutationObserver((mutationList, observer) => {
+          updateArbor();
+        });
 
+        driveArbor.querySelectorAll(':scope output').forEach((out) => {
+          driveChange.observe(out, { childList: true });
+        });
+
+        // timing events
         const centerArbor = this
           .closest('clock-train').querySelector(':scope [data-is=center]');
         const centerDrive = centerArbor

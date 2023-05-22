@@ -22,13 +22,56 @@ clock-pinion {
     display: block;
     --part-color: var(--pinion-color);
   }
-clock-arbor dl {
-    margin-block: var(--thin);
+clock-arbor {
+    --wind-color: var(--teal-9);
+    --center-color: var(--indigo-9);
+    --escape-color: var(--pink-9);
+    --wheel-color: var(--blue-7);
+    --pinion-color: var(--orange-7);
+    container: arbor / inline-size;
+    display: block;
+    margin: 0 auto;
   }
-.wl5crfpkj{--wind-color: var(--teal-9);--center-color: var(--indigo-9);--escape-color: var(--pink-9);--wheel-color: var(--blue-7);--pinion-color: var(--orange-7);display:block;max-width:70ch;margin:0 auto}@media (prefers-color-scheme:dark){.wl5crfpkj{--wind-color: var(--teal-3);--center-color: var(--indigo-3);--escape-color: var(--pink-3);--wheel-color: var(--blue-5);--pinion-color: var(--orange-5)}}.wl5crfpkj[data-is=wind]{--arbor-color: var(--wind-color)}.wl5crfpkj[data-is=center]{--arbor-color: var(--center-color)}.wl5crfpkj[data-is=escape]{--arbor-color: var(--escape-color)}.wl5crfpkj fieldset{border-color:var(--arbor-color)}.wl5crfpkj legend{color:var(--arbor-color)}.wl5crfpkj .parts{display:grid;gap:var(--thin);> * {
-      border-inline-start: thick solid var(--part-color, var(--gray-6));
-      padding-inline-start: var(--medium);
-    }}.wl5crfpkj [data-out=arbor]{border-block-start:thin dotted;margin-block-start:var(--gap);padding-block-start:var(--gap)}
+
+  @media (prefers-color-scheme: dark) {
+    clock-arbor {
+      --wind-color: var(--teal-3);
+      --center-color: var(--indigo-3);
+      --escape-color: var(--pink-3);
+      --wheel-color: var(--blue-5);
+      --pinion-color: var(--orange-5);
+    }
+  }
+
+  clock-arbor[data-is=wind] {
+    --arbor-color: var(--wind-color);
+  }
+
+  clock-arbor[data-is=center] {
+    --arbor-color: var(--center-color);
+  }
+
+  clock-arbor[data-is=escape] {
+    --arbor-color: var(--escape-color);
+  }
+clock-escape {
+    container: arbor / inline-size;
+    display: block;
+    --arbor-color: var(--red-7);
+    --part-color: var(--arbor-color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    clock-escape {
+      --arbor-color: var(--red-5);
+    }
+  }
+
+  dd + dd {
+    &::before {
+      content: ' | ';
+    }
+  }
 #train-settings {
     border-style: dotted;
   }
@@ -38,12 +81,69 @@ clock-arbor dl {
     gap: var(--gap);
     grid-template-columns: repeat(auto-fit, minmax(min(30ch, 100%), 1fr));
     justify-content: center;
+  }
+
+  fieldset {
+    border-color: var(--arbor-color);
+  }
+
+  legend {
+    color: var(--arbor-color);
+  }
+
+  .arbor {
+    display: grid;
+    gap: var(--gap);
+
+    @container arbor (inline-size > 60ch) {
+      grid-template-columns: minmax(30ch, max-content) 2fr;
+      align-items: stretch;
+    }
+  }
+
+  .parts {
+    display: grid;
+    gap: var(--thin);
+
+    > * {
+      border-inline-start: thick solid var(--part-color, var(--gray-6));
+      padding-inline-start: var(--medium);
+    }
+  }
+
+  [data-out] {
+    margin: 0;
+  }
+
+  @container arbor (inline-size <= 60ch) {
+    [data-out=arbor],
+    [data-out=escape] {
+      border-block-start: thin dotted;
+      padding-block-start: var(--gap);
+    }
+  }
+
+  @container arbor (inline-size > 60ch) {
+    [data-out=arbor],
+    [data-out=escape] {
+      border-inline-start: thin dotted;
+      padding-inline-start: var(--gap);
+    }
+  }
+h1 {
+    margin: 0;
   }</style>
 </head>
 <body>
-  <header>
-    <h1>V2 Clock Tool</h1>
-  </header>
+  <site-header><header>
+  <h1>V2 Clock Tool</h1>
+  <nav>
+    <a href="/">« home</a>
+  </nav>
+</header>
+
+
+</site-header>
 
   <main><clock-train><h2>Going Train</h2>
 
@@ -82,19 +182,20 @@ clock-arbor dl {
 
 
 
-  <clock-arbor id="wind" data-is="wind" class="wl5crfpkj"><fieldset>
+  <clock-arbor id="wind" data-is="wind"><fieldset>
   <legend>
     <span>wind</span>
     arbor
   </legend>
 
-  <div class="parts">
-    
+  <div class="arbor">
+    <div class="parts">
+      
     <clock-drive><form-field>
-  <label for="drive-webc-3JmI6">
+  <label for="drive-webc-Yhlkn">
     drive weight
   </label>
-  <input value="5" id="drive-webc-3JmI6" type="number" min="2" max="20" class="force">
+  <input value="5" id="drive-webc-Yhlkn" type="number" min="2" max="20" class="force">
   <output for="force-unit">…</output>
 
 
@@ -120,8 +221,8 @@ clock-arbor dl {
 </clock-drive>
 
     <clock-wheel id="great-wheel" data-od data-teeth="60"><form-field>
-  <label for="wheel-webc-1IB5S">great-wheel</label>
-  <input id="wheel-webc-1IB5S" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-67ICI">great-wheel</label>
+  <input id="wheel-webc-67ICI" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -137,12 +238,11 @@ clock-arbor dl {
 
 </clock-wheel>
   
+    </div>
+
+    
   </div>
-
-  
 </fieldset>
-
-
 
 
 
@@ -150,14 +250,15 @@ clock-arbor dl {
 
 </clock-arbor>
 
-  <clock-arbor id="second" data-drive="great-wheel" class="wl5crfpkj"><fieldset>
+  <clock-arbor id="second" data-drive="great-wheel"><fieldset>
   <legend>
     <span>second</span>
     arbor
   </legend>
 
-  <div class="parts">
-    
+  <div class="arbor">
+    <div class="parts">
+      
     <clock-pinion data-for="great-wheel" data-leaves="20"><form-field>
   <label for="pinion-great-wheel">pinion (great-wheel)</label>
   <input id="pinion-great-wheel" value="20" type="number" min="6" max="30" class="teeth">
@@ -184,9 +285,9 @@ clock-arbor dl {
 
 </clock-pinion>
 
-    <clock-wheel id="second-wheel" data-teeth="64"><form-field>
-  <label for="wheel-webc-5QNm0">second-wheel</label>
-  <input id="wheel-webc-5QNm0" value="64" type="number" min="20" max="120" class="teeth">
+    <clock-wheel id="second-wheel" data-teeth="40"><form-field>
+  <label for="wheel-webc-0JMGM">second-wheel</label>
+  <input id="wheel-webc-0JMGM" value="40" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -202,41 +303,40 @@ clock-arbor dl {
 
 </clock-wheel>
   
+    </div>
+
+    <dl data-out="arbor">
+      <div>
+        <dt>step ratio</dt>
+        <dd>
+          <output data-show="ratio">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive ratio</dt>
+        <dd>
+          <output data-show="drive">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive force</dt>
+        <dd>
+          <output data-show="force">…</output>
+          <output for="force-unit">…</output>
+        </dd>
+      </div>
+      <div>
+        <dt>timing</dt>
+        <dd>
+          <output data-show="rph">…</output>
+          <span class="unit">rph</span>
+        </dd>
+      </div>
+    </dl>
   </div>
-
-  <dl data-out="arbor">
-    <div>
-      <dt>step ratio</dt>
-      <dd>
-        <output data-show="ratio">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive ratio</dt>
-      <dd>
-        <output data-show="drive">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive force</dt>
-      <dd>
-        <output data-show="force">…</output>
-        <output for="force-unit">…</output>
-      </dd>
-    </div>
-    <div>
-      <dt>timing</dt>
-      <dd>
-        <output data-show="rph">…</output>
-        <span class="unit">rph</span>
-      </dd>
-    </div>
-  </dl>
 </fieldset>
-
-
 
 
 
@@ -247,17 +347,18 @@ clock-arbor dl {
   <split-train>
     <div>
 
-      <clock-arbor id="center" data-is="center" data-drive="second-wheel" class="wl5crfpkj"><fieldset>
+      <clock-arbor id="center" data-is="center" data-drive="second-wheel"><fieldset>
   <legend>
     <span>center</span>
     arbor
   </legend>
 
-  <div class="parts">
-    
-        <clock-pinion data-for="second-wheel" data-leaves="8"><form-field>
+  <div class="arbor">
+    <div class="parts">
+      
+        <clock-pinion data-for="second-wheel" data-leaves="20"><form-field>
   <label for="pinion-second-wheel">pinion (second-wheel)</label>
-  <input id="pinion-second-wheel" value="8" type="number" min="6" max="30" class="teeth">
+  <input id="pinion-second-wheel" value="20" type="number" min="6" max="30" class="teeth">
 
 
 
@@ -282,8 +383,8 @@ clock-arbor dl {
 </clock-pinion>
 
         <clock-wheel id="center-wheel" data-teeth="60"><form-field>
-  <label for="wheel-webc-rOdda">center-wheel</label>
-  <input id="wheel-webc-rOdda" value="60" type="number" min="20" max="120" class="teeth">
+  <label for="wheel-webc-bZ3C8">center-wheel</label>
+  <input id="wheel-webc-bZ3C8" value="60" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -299,41 +400,81 @@ clock-arbor dl {
 
 </clock-wheel>
       
-  </div>
+    </div>
 
-  <dl data-out="arbor">
-    <div>
-      <dt>step ratio</dt>
-      <dd>
-        <output data-show="ratio">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive ratio</dt>
-      <dd>
-        <output data-show="drive">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive force</dt>
-      <dd>
-        <output data-show="force">…</output>
-        <output for="force-unit">…</output>
-      </dd>
-    </div>
-    <div>
-      <dt>timing</dt>
-      <dd>
-        <output data-show="rph">1</output>
-        <span class="unit">rph</span>
-      </dd>
-    </div>
-  </dl>
+    <dl data-out="arbor">
+      <div>
+        <dt>step ratio</dt>
+        <dd>
+          <output data-show="ratio">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive ratio</dt>
+        <dd>
+          <output data-show="drive">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive force</dt>
+        <dd>
+          <output data-show="force">…</output>
+          <output for="force-unit">…</output>
+        </dd>
+      </div>
+      <div>
+        <dt>timing</dt>
+        <dd>
+          <output data-show="rph">1</output>
+          <span class="unit">rph</span>
+        </dd>
+      </div>
+    </dl>
+  </div>
 </fieldset>
 
 
+
+
+
+</clock-arbor>
+
+      <clock-arbor id="hour-transfer"><fieldset>
+  <legend>
+    <span>hour-transfer</span>
+    arbor
+  </legend>
+
+  <div class="arbor">
+    <div class="parts">
+      
+    </div>
+
+    
+  </div>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+      <clock-arbor id="hour-pipe" data-is="hour"><fieldset>
+  <legend>
+    <span>hour-pipe</span>
+    arbor
+  </legend>
+
+  <div class="arbor">
+    <div class="parts">
+      
+    </div>
+
+    
+  </div>
+</fieldset>
 
 
 
@@ -344,14 +485,15 @@ clock-arbor dl {
     </div>
     <div>
 
-      <clock-arbor id="third" data-drive="second-wheel" class="wl5crfpkj"><fieldset>
+      <clock-arbor id="third" data-drive="second-wheel"><fieldset>
   <legend>
     <span>third</span>
     arbor
   </legend>
 
-  <div class="parts">
-    
+  <div class="arbor">
+    <div class="parts">
+      
         <clock-pinion data-for="second-wheel" data-leaves="8"><form-field>
   <label for="pinion-second-wheel">pinion (second-wheel)</label>
   <input id="pinion-second-wheel" value="8" type="number" min="6" max="30" class="teeth">
@@ -378,9 +520,9 @@ clock-arbor dl {
 
 </clock-pinion>
 
-        <clock-wheel id="third-wheel" data-teeth="60"><form-field>
-  <label for="wheel-webc-15NFt">third-wheel</label>
-  <input id="wheel-webc-15NFt" value="60" type="number" min="20" max="120" class="teeth">
+        <clock-wheel id="third-wheel" data-teeth="40"><form-field>
+  <label for="wheel-webc-asWZF">third-wheel</label>
+  <input id="wheel-webc-asWZF" value="40" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -396,41 +538,40 @@ clock-arbor dl {
 
 </clock-wheel>
       
+    </div>
+
+    <dl data-out="arbor">
+      <div>
+        <dt>step ratio</dt>
+        <dd>
+          <output data-show="ratio">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive ratio</dt>
+        <dd>
+          <output data-show="drive">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive force</dt>
+        <dd>
+          <output data-show="force">…</output>
+          <output for="force-unit">…</output>
+        </dd>
+      </div>
+      <div>
+        <dt>timing</dt>
+        <dd>
+          <output data-show="rph">…</output>
+          <span class="unit">rph</span>
+        </dd>
+      </div>
+    </dl>
   </div>
-
-  <dl data-out="arbor">
-    <div>
-      <dt>step ratio</dt>
-      <dd>
-        <output data-show="ratio">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive ratio</dt>
-      <dd>
-        <output data-show="drive">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive force</dt>
-      <dd>
-        <output data-show="force">…</output>
-        <output for="force-unit">…</output>
-      </dd>
-    </div>
-    <div>
-      <dt>timing</dt>
-      <dd>
-        <output data-show="rph">…</output>
-        <span class="unit">rph</span>
-      </dd>
-    </div>
-  </dl>
 </fieldset>
-
-
 
 
 
@@ -438,14 +579,15 @@ clock-arbor dl {
 
 </clock-arbor>
 
-      <clock-arbor id="escape" data-is="escape" data-drive="third-wheel" class="wl5crfpkj"><fieldset>
+      <clock-arbor id="fourth" data-drive="third-wheel"><fieldset>
   <legend>
-    <span>escape</span>
+    <span>fourth</span>
     arbor
   </legend>
 
-  <div class="parts">
-    
+  <div class="arbor">
+    <div class="parts">
+      
         <clock-pinion data-for="third-wheel" data-leaves="8"><form-field>
   <label for="pinion-third-wheel">pinion (third-wheel)</label>
   <input id="pinion-third-wheel" value="8" type="number" min="6" max="30" class="teeth">
@@ -472,9 +614,9 @@ clock-arbor dl {
 
 </clock-pinion>
 
-        <clock-wheel id="escape-wheel" data-teeth="30"><form-field>
-  <label for="wheel-webc-gqiE_">escape-wheel</label>
-  <input id="wheel-webc-gqiE_" value="30" type="number" min="20" max="120" class="teeth">
+        <clock-wheel id="fourth-wheel" data-teeth="40"><form-field>
+  <label for="wheel-webc-ZEGNl">fourth-wheel</label>
+  <input id="wheel-webc-ZEGNl" value="40" type="number" min="20" max="120" class="teeth">
 
 
 
@@ -490,41 +632,40 @@ clock-arbor dl {
 
 </clock-wheel>
       
+    </div>
+
+    <dl data-out="arbor">
+      <div>
+        <dt>step ratio</dt>
+        <dd>
+          <output data-show="ratio">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive ratio</dt>
+        <dd>
+          <output data-show="drive">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive force</dt>
+        <dd>
+          <output data-show="force">…</output>
+          <output for="force-unit">…</output>
+        </dd>
+      </div>
+      <div>
+        <dt>timing</dt>
+        <dd>
+          <output data-show="rph">…</output>
+          <span class="unit">rph</span>
+        </dd>
+      </div>
+    </dl>
   </div>
-
-  <dl data-out="arbor">
-    <div>
-      <dt>step ratio</dt>
-      <dd>
-        <output data-show="ratio">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive ratio</dt>
-      <dd>
-        <output data-show="drive">…</output>
-        <span class="unit">: 1</span>
-      </dd>
-    </div>
-    <div>
-      <dt>drive force</dt>
-      <dd>
-        <output data-show="force">…</output>
-        <output for="force-unit">…</output>
-      </dd>
-    </div>
-    <div>
-      <dt>timing</dt>
-      <dd>
-        <output data-show="rph">…</output>
-        <span class="unit">rph</span>
-      </dd>
-    </div>
-  </dl>
 </fieldset>
-
-
 
 
 
@@ -532,13 +673,155 @@ clock-arbor dl {
 
 </clock-arbor>
 
+      <clock-arbor id="escape" data-is="escape" data-drive="fourth-wheel"><fieldset>
+  <legend>
+    <span>escape</span>
+    arbor
+  </legend>
+
+  <div class="arbor">
+    <div class="parts">
+      
+        <clock-pinion data-for="fourth-wheel" data-leaves="8"><form-field>
+  <label for="pinion-fourth-wheel">pinion (fourth-wheel)</label>
+  <input id="pinion-fourth-wheel" value="8" type="number" min="6" max="30" class="teeth">
+
+
+
+
+
+</form-field>
+
+<dl data-out="pinion">
+  <div>
+    <dt>pitch diameter</dt>
+    <dd>
+      <output data-show="pd">…</output>
+      <output for="size-unit">…</output>
+    </dd>
+  </div>
+</dl>
+
+
+
+
+
+</clock-pinion>
+
+        <clock-wheel id="escape-wheel" data-teeth="30"><form-field>
+  <label for="wheel-webc-c1Qdi">escape-wheel</label>
+  <input id="wheel-webc-c1Qdi" value="30" type="number" min="20" max="120" class="teeth">
+
+
+
+
+
+</form-field>
+
+
+
+
+
+
+
+</clock-wheel>
+      
+    </div>
+
+    <dl data-out="arbor">
+      <div>
+        <dt>step ratio</dt>
+        <dd>
+          <output data-show="ratio">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive ratio</dt>
+        <dd>
+          <output data-show="drive">…</output>
+          <span class="unit">: 1</span>
+        </dd>
+      </div>
+      <div>
+        <dt>drive force</dt>
+        <dd>
+          <output data-show="force">…</output>
+          <output for="force-unit">…</output>
+        </dd>
+      </div>
+      <div>
+        <dt>timing</dt>
+        <dd>
+          <output data-show="rph">…</output>
+          <span class="unit">rph</span>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</fieldset>
+
+
+
+
+
+</clock-arbor>
+
+      <clock-escape data-drive="escape-wheel"><fieldset>
+  <legend>escape lever &amp; pendulum</legend>
+
+  <div class="arbor">
+    <div class="parts">
+      <form-field>
+        <label for="tooth-count">beats per tooth</label>
+        <input type="number" id="tooth-count" value="2" min="0" max="10">
+      
+
+
+
+
+</form-field>
+    </div>
+
+    <dl data-out="escape">
+      <div>
+        <dt>beats</dt>
+        <dd>
+          <output data-show="bph">…</output>
+          <span class="units">bph</span>
+        </dd>
+        <dd>
+          <output data-show="bpm">…</output>
+          <span class="units">bpm</span>
+        </dd>
+        <dd>
+          <output data-show="bps">…</output>
+          <span class="units">bps</span>
+        </dd>
+      </div>
+      <div>
+        <dt>pendulum</dt>
+        <output data-show="pendulum">…</output>
+        <output for="size-unit">…</output>
+      </div>
+    </dl>
+  </div>
+
+</fieldset>
+
+
+
+
+</clock-escape>
     </div>
   </split-train>
 
 
-<dl class="out">
+<dl data-out="train">
   <dt>Arbor Count</dt>
-  <dd><output class="arbor-count">…</output></dd>
+  <dd>
+    <output data-show="arbor-count">…</output>
+  </dd>
 </dl>
 
 
@@ -594,40 +877,20 @@ window.customElements.define('clock-arbor', class extends HTMLElement {
         const driveOut = driveArbor.dataset.is === 'wind'
           ? {
             ratio: { value: 1 },
+            drive: { value: 1 },
             force: driveArbor.querySelector(':scope input.force'),
           }
           : mapOutput(driveArbor);
 
         const getRatio = () => parseInt(fromInput.value) / parseInt(toInput.value);
-        const getDrive = () => getRatio() * parseFloat(driveOut.ratio.value);
+        const getDrive = () => getRatio() * parseFloat(driveOut.drive.value);
         const getForce = () => parseFloat(driveOut.force.value) / getRatio();
 
         const setRatio = () => { output.ratio.value = ish(getRatio()); };
         const setDrive = () => { output.drive.value = ish(getDrive()); };
         const setForce = () => { output.force.value = ish(getForce()); };
 
-        const updateArbor = () => {
-          setRatio();
-          setDrive();
-          setForce();
-        };
-
-        // drive events
-        updateArbor();
-        this.addEventListener('change', (e) => { updateArbor(); });
-        driveArbor.addEventListener('change', (e) => {
-          updateArbor();
-        });
-
-        const driveChange = new MutationObserver((mutationList, observer) => {
-          updateArbor();
-        });
-
-        driveArbor.querySelectorAll(':scope output').forEach((out) => {
-          driveChange.observe(out, { childList: true });
-        });
-
-        // timing events
+        // timing
         const centerArbor = this
           .closest('clock-train').querySelector(':scope [data-is=center]');
         const centerDrive = centerArbor
@@ -640,17 +903,105 @@ window.customElements.define('clock-arbor', class extends HTMLElement {
           }
         }
 
-        if (centerArbor !== this) {
+        const updateArbor = () => {
+          setRatio();
+          setDrive();
+          setForce();
           setRph();
-          centerArbor.addEventListener('change', (e) => { setRph(); });
+        };
 
-          const centerChange = new MutationObserver((mutationList, observer) => {
-            setRph();
-          });
+        // drive events
+        updateArbor();
+        this.addEventListener('input', (e) => { updateArbor(); });
+        driveArbor.addEventListener('input', (e) => { updateArbor(); });
 
-          centerChange.observe(centerDrive, { childList: true });
-        }
+        const driveChange = new MutationObserver((mutationList, observer) => {
+          updateArbor();
+        });
+
+        driveArbor.querySelectorAll(':scope output').forEach((out) => {
+          driveChange.observe(out, { childList: true });
+        });
+
+        centerArbor.querySelectorAll(':scope output').forEach((out) => {
+          driveChange.observe(out, { childList: true });
+        });
       }
+    }
+  });
+window.customElements.define('clock-escape', class extends HTMLElement {
+    connectedCallback() {
+      // utils
+      const ish = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const name = (el) => el.tagName.toLowerCase().split('-').at(-1);
+
+      const mapOutput = (el, map = {}) => {
+        el.querySelectorAll(`:scope [data-out=${name(el)}] [data-show]`)
+          .forEach((out) => { map[out.dataset.show] = out; });
+
+        return map;
+      };
+
+      // elements
+      const output = mapOutput(this);
+      const sizeUnit = document.getElementById('size-unit');
+
+      // train
+      const train = {
+        drive: document.getElementById(this.dataset.drive),
+        escape: this.closest('clock-train').querySelector(':scope [data-is=escape]'),
+        center: this.closest('clock-train').querySelector(':scope [data-is=center]'),
+      };
+
+      const escape = {
+        teeth: train.drive.querySelector(':scope .teeth'),
+        factor: document.getElementById('tooth-count'),
+        ...mapOutput(train.escape),
+      };
+
+      const getBph = () => (
+        (parseInt(escape.teeth.value) * parseFloat(escape.factor.value))
+        * parseFloat(escape.rph.value)
+      );
+
+      const setBeats = () => {
+        const bph = getBph();
+        output.bph.value = ish(bph);
+        output.bpm.value = ish(bph / 60);
+        output.bps.value = ish(bph / 60 / 60);
+      }
+
+      const setLength = () => {
+        const bpm2 = Math.pow(output.bpm.value, 2);
+        let L = 141220 / bpm2;
+
+        if (sizeUnit.value === 'mm') {
+          L = (3578.4 / bpm2) * 1000;
+        }
+
+        output.pendulum.value = `${Math.floor(L)}–${Math.ceil(L * 1.2)}`;
+      }
+
+      const setOutput = () => {
+        setBeats();
+        setLength();
+      }
+
+      setOutput();
+      this.addEventListener('input', (e) => { setOutput(); });
+      train.escape.addEventListener('input', (e) => { setOutput(); });
+
+      const driveChange = new MutationObserver((mutationList, observer) => {
+        setOutput();
+      });
+
+      train.escape.querySelectorAll(':scope [data-show]').forEach((out) => {
+        driveChange.observe(out, { childList: true });
+      });
     }
   });
 window.customElements.define('clock-train', class extends HTMLElement {
@@ -662,7 +1013,7 @@ window.customElements.define('clock-train', class extends HTMLElement {
       };
 
       const output = {
-        arborCount: this.querySelector(':scope dl .arbor-count'),
+        arborCount: this.querySelector(':scope [data-show=arbor-count]'),
         forceUnit: document.querySelectorAll(':scope output[for=force-unit]'),
         sizeUnit: document.querySelectorAll(':scope output[for=size-unit]'),
       };

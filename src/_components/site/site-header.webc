@@ -1,0 +1,12 @@
+<header>
+  <h1 @html="this.banner || 'Clocks Clocks Clocks'"></h1>
+  <nav webc:if="this.url !== '/'">
+    <a href="/">« home</a>
+  </nav>
+</header>
+
+<style>
+  h1 {
+    margin: 0;
+  }
+</style>

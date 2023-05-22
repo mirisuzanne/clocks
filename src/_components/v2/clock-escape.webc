@@ -1,0 +1,141 @@
+<fieldset>
+  <legend>escape lever & pendulum</legend>
+
+  <div class="arbor">
+    <div class="parts">
+      <form-field>
+        <label for="tooth-count">beats per tooth</label>
+        <input
+          type="number"
+          id="tooth-count"
+          :value="dataFactor || 2"
+          min="0"
+          max="10"
+        >
+      </form-field>
+    </div>
+
+    <dl data-out="escape">
+      <div>
+        <dt>beats</dt>
+        <dd>
+          <output data-show="bph">…</output>
+          <span class="units">bph</span>
+        </dd>
+        <dd>
+          <output data-show="bpm">…</output>
+          <span class="units">bpm</span>
+        </dd>
+        <dd>
+          <output data-show="bps">…</output>
+          <span class="units">bps</span>
+        </dd>
+      </div>
+      <div>
+        <dt>pendulum</dt>
+        <output data-show="pendulum">…</output>
+        <output for="size-unit">…</output>
+      </div>
+    </dl>
+  </div>
+
+</fieldset>
+
+<style>
+  clock-escape {
+    container: arbor / inline-size;
+    display: block;
+    --arbor-color: var(--red-7);
+    --part-color: var(--arbor-color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    clock-escape {
+      --arbor-color: var(--red-5);
+    }
+  }
+
+  dd + dd {
+    &::before {
+      content: ' | ';
+    }
+  }
+</style>
+
+<script type="module">
+  window.customElements.define('clock-escape', class extends HTMLElement {
+    connectedCallback() {
+      // utils
+      const ish = (n, d = 4) => {
+        const f = Math.pow(10, d);
+        return Math.round(n * f) / f;
+      };
+
+      const name = (el) => el.tagName.toLowerCase().split('-').at(-1);
+
+      const mapOutput = (el, map = {}) => {
+        el.querySelectorAll(`:scope [data-out=${name(el)}] [data-show]`)
+          .forEach((out) => { map[out.dataset.show] = out; });
+
+        return map;
+      };
+
+      // elements
+      const output = mapOutput(this);
+      const sizeUnit = document.getElementById('size-unit');
+
+      // train
+      const train = {
+        drive: document.getElementById(this.dataset.drive),
+        escape: this.closest('clock-train').querySelector(':scope [data-is=escape]'),
+        center: this.closest('clock-train').querySelector(':scope [data-is=center]'),
+      };
+
+      const escape = {
+        teeth: train.drive.querySelector(':scope .teeth'),
+        factor: document.getElementById('tooth-count'),
+        ...mapOutput(train.escape),
+      };
+
+      const getBph = () => (
+        (parseInt(escape.teeth.value) * parseFloat(escape.factor.value))
+        * parseFloat(escape.rph.value)
+      );
+
+      const setBeats = () => {
+        const bph = getBph();
+        output.bph.value = ish(bph);
+        output.bpm.value = ish(bph / 60);
+        output.bps.value = ish(bph / 60 / 60);
+      }
+
+      const setLength = () => {
+        const bpm2 = Math.pow(output.bpm.value, 2);
+        let L = 141220 / bpm2;
+
+        if (sizeUnit.value === 'mm') {
+          L = (3578.4 / bpm2) * 1000;
+        }
+
+        output.pendulum.value = `${Math.floor(L)}–${Math.ceil(L * 1.2)}`;
+      }
+
+      const setOutput = () => {
+        setBeats();
+        setLength();
+      }
+
+      setOutput();
+      this.addEventListener('input', (e) => { setOutput(); });
+      train.escape.addEventListener('input', (e) => { setOutput(); });
+
+      const driveChange = new MutationObserver((mutationList, observer) => {
+        setOutput();
+      });
+
+      train.escape.querySelectorAll(':scope [data-show]').forEach((out) => {
+        driveChange.observe(out, { childList: true });
+      });
+    }
+  });
+</script>

@@ -12,6 +12,7 @@ title: V2 Clock Tool
     <clock-drive
       @weight="5"
       @size="24"
+      @pulley="true"
     ></clock-drive>
 
     <clock-wheel
@@ -32,7 +33,7 @@ title: V2 Clock Tool
 
     <clock-wheel
       id="second-wheel"
-      data-teeth="64"
+      data-teeth="40"
     ></clock-wheel>
   </clock-arbor>
 
@@ -46,7 +47,7 @@ title: V2 Clock Tool
       >
         <clock-pinion
           data-for="second-wheel"
-          data-leaves="8"
+          data-leaves="20"
         ></clock-pinion>
 
         <clock-wheel
@@ -54,6 +55,14 @@ title: V2 Clock Tool
           data-teeth="60"
         ></clock-wheel>
       </clock-arbor>
+
+      <clock-arbor
+        id="hour-transfer"
+      ></clock-arbor>
+      <clock-arbor
+        id="hour-pipe"
+        data-is="hour"
+      ></clock-arbor>
 
     </div>
     <div>
@@ -68,17 +77,31 @@ title: V2 Clock Tool
         ></clock-pinion>
 
         <clock-wheel id="third-wheel"
-          data-teeth="60"
+          data-teeth="40"
+        ></clock-wheel>
+      </clock-arbor>
+
+      <clock-arbor
+        id="fourth"
+        data-drive="third-wheel"
+      >
+        <clock-pinion
+          data-for="third-wheel"
+          data-leaves="8"
+        ></clock-pinion>
+
+        <clock-wheel id="fourth-wheel"
+          data-teeth="40"
         ></clock-wheel>
       </clock-arbor>
 
       <clock-arbor
         id="escape"
         data-is="escape"
-        data-drive="third-wheel"
+        data-drive="fourth-wheel"
       >
         <clock-pinion
-          data-for="third-wheel"
+          data-for="fourth-wheel"
           data-leaves="8"
         ></clock-pinion>
 
@@ -88,6 +111,9 @@ title: V2 Clock Tool
         ></clock-wheel>
       </clock-arbor>
 
+      <clock-escape
+        data-drive="escape-wheel"
+      ></clock-escape>
     </div>
   </split-train>
 </clock-train>

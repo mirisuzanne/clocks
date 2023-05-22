@@ -25,9 +25,11 @@
 
 <slot></slot>
 
-<dl class="out">
+<dl data-out="train">
   <dt>Arbor Count</dt>
-  <dd><output class="arbor-count">…</output></dd>
+  <dd>
+    <output data-show="arbor-count">…</output>
+  </dd>
 </dl>
 
 <style>
@@ -41,6 +43,54 @@
     grid-template-columns: repeat(auto-fit, minmax(min(30ch, 100%), 1fr));
     justify-content: center;
   }
+
+  fieldset {
+    border-color: var(--arbor-color);
+  }
+
+  legend {
+    color: var(--arbor-color);
+  }
+
+  .arbor {
+    display: grid;
+    gap: var(--gap);
+
+    @container arbor (inline-size > 60ch) {
+      grid-template-columns: minmax(30ch, max-content) 2fr;
+      align-items: stretch;
+    }
+  }
+
+  .parts {
+    display: grid;
+    gap: var(--thin);
+
+    > * {
+      border-inline-start: thick solid var(--part-color, var(--gray-6));
+      padding-inline-start: var(--medium);
+    }
+  }
+
+  [data-out] {
+    margin: 0;
+  }
+
+  @container arbor (inline-size <= 60ch) {
+    [data-out=arbor],
+    [data-out=escape] {
+      border-block-start: thin dotted;
+      padding-block-start: var(--gap);
+    }
+  }
+
+  @container arbor (inline-size > 60ch) {
+    [data-out=arbor],
+    [data-out=escape] {
+      border-inline-start: thin dotted;
+      padding-inline-start: var(--gap);
+    }
+  }
 </style>
 
 <script type="module">
@@ -53,7 +103,7 @@
       };
 
       const output = {
-        arborCount: this.querySelector(':scope dl .arbor-count'),
+        arborCount: this.querySelector(':scope [data-show=arbor-count]'),
         forceUnit: document.querySelectorAll(':scope output[for=force-unit]'),
         sizeUnit: document.querySelectorAll(':scope output[for=size-unit]'),
       };
